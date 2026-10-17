@@ -15,26 +15,41 @@ async function startServer(port: number): Promise<ChildProcess> {
     ],
     { stdio: 'pipe', windowsHide: true },
   );
-  await new Promise<void>((done, reject) => {
-    const timer = setTimeout(() => {
-      server.kill();
-      reject(new Error('Preview server did not become ready.'));
-    }, 15000);
-    server.on('error', (error) => {
-      clearTimeout(timer);
-      reject(error);
-    });
-    server.on('exit', (code) => {
-      clearTimeout(timer);
-      reject(new Error(`Preview server exited (${code}).`));
-    });
-    server.stdout?.on('data', (data: Buffer) => {
-      if (data.toString().includes('Local:')) {
-        clearTimeout(timer);
-        done();
-      }
-    });
+  let output = '';
+  let launchError: Error | undefined;
+  server.on('error', (error) => {
+    launchError = error;
   });
+  server.stdout?.on('data', (data: Buffer) => {
+    output += data.toString();
+  });
+  server.stderr?.on('data', (data: Buffer) => {
+    output += data.toString();
+  });
+  try {
+    await expect
+      .poll(
+        async () => {
+          if (launchError || server.exitCode !== null) return false;
+          try {
+            const response = await fetch(`http://127.0.0.1:${port}`, {
+              signal: AbortSignal.timeout(1000),
+            });
+            return response.ok && (await response.text()).includes('Fitness Lab');
+          } catch {
+            return false;
+          }
+        },
+        { timeout: 15000, message: 'Preview server must respond over HTTP.' },
+      )
+      .toBe(true);
+  } catch (error) {
+    server.kill();
+    throw new Error(
+      `Preview server did not become ready. ${launchError?.message ?? ''}\n${output}`,
+      { cause: error },
+    );
+  }
   return server;
 }
 

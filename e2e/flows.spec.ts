@@ -127,13 +127,11 @@ test('backup exports, rejects invalid files and recovers a corrupt local databas
   const download = await downloadPromise;
   const backupPath = await download.path();
   expect(backupPath).toBeTruthy();
-  await page
-    .getByLabel('Selecionar arquivo de backup', { exact: true })
-    .setInputFiles({
-      name: 'invalid.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from('{"schemaVersion":999}'),
-    });
+  await page.getByLabel('Selecionar arquivo de backup', { exact: true }).setInputFiles({
+    name: 'invalid.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from('{"schemaVersion":999}'),
+  });
   await expect(page.getByRole('alert')).toContainText('Dados inválidos');
   await page.evaluate(async () => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {

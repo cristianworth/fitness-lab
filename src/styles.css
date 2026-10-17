@@ -243,9 +243,6 @@ small {
   padding: 12px 15px;
   border-radius: 12px;
   color: #52634e;
-  transition:
-    background 0.15s,
-    color 0.15s;
 }
 
 .nav-link svg {
