@@ -7,8 +7,8 @@ SDD manual: documentos pequenos acompanham requisitos, decisões e evidências, 
 - [x] Implementar regras, snapshots, cálculos, persistência e testes.
 - [x] Implementar interface de treinos, alimentação, histórico e visão do dia.
 - [x] Integrar backup, recuperação, feedback e proteção contra reenvio.
-- [ ] Validar build, testes e fluxos pelo navegador, incluindo viewport móvel.
-- [ ] Revisão independente e resolução dos achados.
+- [x] Validar build, testes e fluxos pelo navegador, incluindo viewport móvel.
+- [x] Revisão independente e resolução dos achados.
 - [ ] Finalizar README, changelog, versão 0.1.0, commits e remoto GitHub.
 
 ## Delegação

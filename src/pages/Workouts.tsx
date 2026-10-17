@@ -44,11 +44,20 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
   const [routine, setRoutine] = useState<Routine | null>(null);
   const [pending, setPending] = useState(false);
   const [unsaved, setUnsaved] = useState<Set<string>>(new Set());
+  const [externalNotice, setExternalNotice] = useState('');
   const lock = useRef(false);
   const startId = useRef<{ routineId: string; id: string; now: string } | null>(null);
   const addIds = useRef<Record<string, string>>({});
   const active = state.sessions.find(session => !session.completedAt);
+  const previousActiveId = useRef(active?.id);
   const disabled = busy || pending;
+  useEffect(() => {
+    if (previousActiveId.current !== active?.id && unsaved.size > 0) {
+      setUnsaved(new Set());
+      setExternalNotice('O treino foi encerrado ou substituído em outra aba. Seus rascunhos locais não salvos não foram incluídos. Confira o histórico antes de continuar.');
+    }
+    previousActiveId.current = active?.id;
+  }, [active?.id, unsaved.size]);
   useEffect(() => {
     if (!unsaved.size) return;
     const preventLoss = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
@@ -82,6 +91,7 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
     setRoutine(current => current && { ...current, exercises: current.exercises.map((item, i) => i === index ? { ...item, ...patch } : item) });
   }
   return <div className="page-stack">
+    {externalNotice && <div className="notice" role="alert"><span className="grow">{externalNotice}</span><button type="button" className="icon-button" aria-label="Fechar aviso de atualização externa" onClick={() => setExternalNotice('')}><X size={18} /></button></div>}
     <header className="page-heading"><div><p className="eyebrow">UM PASSO DE CADA VEZ</p><h1>Seu treino, seu ritmo.</h1><p>Planeje o básico. Registre o que você fez.</p></div><div className="heading-icon"><Dumbbell size={30} /></div></header>
     <div className="tabs" aria-label="Áreas de treino">{([['sessions', 'Treinar'], ['routines', 'Rotinas'], ['exercises', 'Exercícios']] as const).map(([value, label]) => <button key={value} className={tab === value ? 'tab active' : 'tab'} aria-pressed={tab === value} disabled={unsaved.size > 0 && value !== tab} onClick={() => setTab(value)}>{label}{value === 'sessions' && active && <span className="status-dot" />}</button>)}</div>
     {tab === 'sessions' && (active ? <>

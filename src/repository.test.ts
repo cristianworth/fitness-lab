@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { deleteDB, openDB } from 'idb';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createInitialState, MAX_BACKUP_BYTES, serializeBackup } from './domain';
 import { stateAtBackupLimit } from './data/backup-fixture.test-helper';
 import { closeDatabase, execute, loadState, restoreState } from './repository';
@@ -40,6 +40,25 @@ describe('IndexedDB repository', () => {
     expect(await loadState()).toEqual(saved);
     await execute({ type: 'saveExercise', exercise: { ...saved.exercises[0], name: 'Flexão inclinada' } });
     expect((await loadState()).exercises[0].name).toBe('Flexão inclinada');
+  });
+
+  it('rejects a quota failure from the object store, preserves committed data and recovers', async () => {
+    const saved = await execute(exercise);
+    const quotaError = new DOMException('Storage quota exceeded', 'QuotaExceededError');
+    const put = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementationOnce(() => { throw quotaError; });
+    try {
+      await expect(execute({ type: 'saveExercise', exercise: { ...saved.exercises[0], name: 'Alteração sem espaço' } })).rejects.toBe(quotaError);
+      expect(put).toHaveBeenCalledOnce();
+      expect(await loadState()).toEqual(saved);
+      await closeDatabase();
+      expect(await loadState()).toEqual(saved);
+      const recovered = await execute({ type: 'saveExercise', exercise: { ...saved.exercises[0], name: 'Flexão recuperada' } });
+      await closeDatabase();
+      expect(await loadState()).toEqual(recovered);
+      expect(recovered.exercises[0].name).toBe('Flexão recuperada');
+    } finally {
+      put.mockRestore();
+    }
   });
 
   it('does not duplicate a concurrent repeated meal request', async () => {
