@@ -1,4 +1,12 @@
-# Validação da versão 0.1.0
+# Validação das entregas
+
+## 0.1.1 — Dados demonstrativos
+
+Em 17/10/2026: 38 testes Vitest passaram (35 existentes e três do dataset); TypeScript/build passaram. Os 14 cenários existentes de navegador passaram. Os dois novos cenários desktop/mobile passaram após corrigir um seletor do próprio teste (`getByLabel` → `getByRole` no combobox); validam importação da demo, persistência após recarga, carga 30→35 kg, volume inicial 540 kg × repetições e igualdade integral do backup exportado. Formatação passou.
+
+Revisão independente conferiu schema, roundtrip, calendário, fuso, contagens e valores ausentes diretamente na TACO original, sem achados acionáveis. Conferência no navegador integrado: backup inicial vazio exportado, demo importada, 24 treinos/314 séries na Evolução e oito consumos em 17/10. Dados são sintéticos e identificados; medidas corporais não fazem parte do esquema.
+
+## 0.1.0 — Aplicação inicial
 
 Data: 2026-10-17. Ambiente observado: Windows 10, Node 24.20.0, npm 11.19.0, Microsoft Edge headless. Configuração dos subagentes: GPT-6.1 Sol com raciocínio alto.
 

@@ -2,6 +2,17 @@
 
 Versões seguem SemVer. A primeira entrega 0.1.0 está autorizada e pode conter vários commits. Antes de uma versão futura, propor o número e confirmar atualização de changelog/manifests/interface conforme as instruções de colaboração.
 
+## 0.1.1 — 2026-10-17
+
+Versão autorizada por Cristian para a entrega dos dados demonstrativos.
+
+### Added
+
+- Dataset fictício importável: 24 treinos em oito semanas, duas rotinas, dez exercícios, 12 alimentos TACO e 926 consumos em 55 dias.
+- Progressão de carga com platôs, semana leve, séries planejadas/realizadas e histórico nutricional com unidades e valores desconhecidos preservados.
+- Gerador reproduzível, arquivo JSON público e documentação das fontes ACSM/NHS/TACO, convenções e limites sobre composição corporal.
+- Três testes do dataset e fluxo de importação, persistência, evolução e exportação em desktop/mobile.
+
 ## 0.1.0 — 2026-10-17
 
 ### Added

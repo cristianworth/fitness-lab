@@ -8,7 +8,7 @@ App pessoal de academia implementado majoritariamente por IA, em execução aut�
 
 - Diretório: `D:\Repo\fitness-lab`.
 - Git: `main`; remoto público autorizado `https://github.com/cristianworth/fitness-lab`.
-- Versão desta entrega: `0.1.0`, explicitamente autorizada. A versão exibida vem do package.json.
+- Versão desta entrega: `0.1.1`, explicitamente autorizada. A versão exibida vem do package.json.
 - Tecnologias: React/TypeScript/Vite, idb, Zod, Vitest/fake-indexeddb, Playwright/Axe. Lockfile fixa dependências.
 - Comandos: `npm ci`, `npm run dev`, `npm run check`, `npm run test:e2e`.
 - Origem estável: `http://127.0.0.1:5173`. Preview usa a mesma porta; encerrar dev antes.
@@ -18,6 +18,8 @@ App pessoal de academia implementado majoritariamente por IA, em execução aut�
 Versão 0.1.0 entregue. Implementados painel do dia, cadastro/edição de exercícios e rotinas, sessão ativa com gravação explícita de rascunhos, histórico/evolução, cadastro de alimentos, diário/correções e backup/restauração. Domínio e persistência têm 35 testes passando; 14 cenários de navegador, build, tipos e formatação passaram. CI Ubuntu aprovado no run 39053215273. Revisão independente encerrada com todos os achados corrigidos. Conferir relatório final em `validation.md`.
 
 Dados reais/backs/tests brutos fora do Git. Nenhuma publicação da aplicação em servidor externo. Arquivos `.local/` são auxiliares ignorados e não são necessários para executar o projeto.
+
+Entrega 0.1.1: dataset demonstrativo pesquisado em `public/demo/fitness-lab-demo.json`, gerador `scripts/generate-demo.mjs` e proveniência em `docs/demo-data.md`. 24 treinos, 314 séries feitas e 926 consumos entre 24/08 e 17/10/2026; supino 30→35 kg. Banco local do navegador integrado estava vazio (backup exportado e conferido antes da importação) e recebeu a demo. Nenhum dado corporal medido foi inventado. Testes totais: 38 unitários e 16 de navegador (14 existentes + 2 novos, estes reconferidos após corrigir o seletor do teste); build e formatação aprovados. Revisão independente sem achados. Dataset usa esquema 1 e não é carregado automaticamente em novos navegadores.
 
 ## Próximo passo
 

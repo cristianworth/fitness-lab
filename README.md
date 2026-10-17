@@ -1,6 +1,6 @@
 # Fitness Lab
 
-Aplicativo pessoal de treinos e alimentação, em português do Brasil. React + TypeScript + Vite, com persistência IndexedDB no navegador. **Versão 0.1.0.**
+Aplicativo pessoal de treinos e alimentação, em português do Brasil. React + TypeScript + Vite, com persistência IndexedDB no navegador. **Versão 0.1.1.**
 
 Experimento de desenvolvimento majoritariamente por IA, com especificação, delegação, implementação e revisão independente. O código está em [cristianworth/fitness-lab](https://github.com/cristianworth/fitness-lab).
 
@@ -47,6 +47,12 @@ Encerre o servidor de desenvolvimento antes de abrir o preview, que usa o mesmo 
 8. **Seus dados → Exportar backup:** guarde o JSON. Importe-o, confira o resumo e confirme a substituição somente se quiser restaurar esse arquivo. Arquivos inválidos não alteram os registros.
 
 O app começa vazio. Os exemplos acima e os dados dos testes são fictícios. Testes automatizados usam perfis isolados e não alteram seus registros pessoais.
+
+### Demonstração com histórico
+
+Está disponível um [arquivo JSON demonstrativo](public/demo/fitness-lab-demo.json) com 24 treinos, 2 rotinas, 10 exercícios, 12 alimentos da TACO e 55 dias de alimentação fictícia. Com o app rodando, [baixe o arquivo local](http://127.0.0.1:5173/demo/fitness-lab-demo.json) e importe em **Seus dados**. A importação substitui os registros: exporte seu backup antes. A demo não é carregada automaticamente.
+
+Veja [fontes, unidades, datas e limites da simulação](docs/demo-data.md). `npm run demo:generate` reproduz o arquivo. Em Evolução, o supino passa de 30 a 35 kg com platôs e uma semana mais leve. O app não mede composição ou definição corporal.
 
 ## Dados, unidades e limites
 

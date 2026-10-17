@@ -10,6 +10,8 @@ SDD manual: documentos pequenos acompanham requisitos, decisões e evidências, 
 - [x] Validar build, testes e fluxos pelo navegador, incluindo viewport móvel.
 - [x] Revisão independente e resolução dos achados.
 - [x] Finalizar README, changelog, versão 0.1.0, commits e remoto GitHub.
+- [x] Pesquisar e produzir dados demonstrativos de treino/alimentação com histórico e JSON exportável (0.1.1 autorizada).
+- [x] Validar dataset, importação/exportação, gráficos, persistência e revisão independente das fontes.
 
 ## Delegação
 

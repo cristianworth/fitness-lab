@@ -5,3 +5,4 @@ test-results
 playwright-report
 .local
 package-lock.json
+public/demo/fitness-lab-demo.json

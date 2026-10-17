@@ -5,5 +5,5 @@ import manifest from './package.json' with { type: 'json' };
 export default defineConfig({
   plugins: [react()],
   define: { __APP_VERSION__: JSON.stringify(manifest.version) },
-  test: { include: ['src/**/*.test.ts'], environment: 'node' },
+  test: { include: ['src/**/*.test.ts', 'scripts/**/*.test.mjs'], environment: 'node' },
 });
