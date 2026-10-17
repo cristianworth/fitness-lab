@@ -1,0 +1,9 @@
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import manifest from './package.json';
+
+export default defineConfig({
+  plugins: [react()],
+  define: { __APP_VERSION__: JSON.stringify(manifest.version) },
+  test: { include: ['src/**/*.test.ts'], environment: 'node' },
+});

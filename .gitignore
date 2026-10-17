@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.local/
+.env
+.env.*
+!.env.example
+*.log
+*.db
+*.db-*
+*.sqlite*
+*backup*.json
+!.github/**
