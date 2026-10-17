@@ -9,6 +9,7 @@
 - GitHub público autorizado para código. Hospedagem da aplicação exige decisão posterior.
 
 ## Fontes oficiais consultadas
+
 - https://react.dev/learn/build-a-react-app-from-scratch
 - https://vite.dev/guide/
 - https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
@@ -28,4 +29,5 @@
 - Formato de estado único transacional favorece simplicidade e backup atômico. O limite conservador serve ao uso pessoal; dados muito volumosos podem justificar stores separados em uma evolução futura.
 
 ## Ambiente observado
+
 Windows 10, Node.js 24.20.0, npm 11.19.0 e Git disponíveis. GitHub CLI não encontrada no PATH. Playwright atual documenta Windows 11+; validação local precisa registrar essa limitação de suporte.

@@ -64,9 +64,10 @@ O app começa vazio. Os exemplos acima e os dados dos testes são fictícios. Te
 ```powershell
 npm run check
 npm run test:e2e
+npm run format:check
 ```
 
-`check` executa Vitest, TypeScript e build Vite. Testes de navegador usam Microsoft Edge instalado no Windows e Chromium no Linux. Para instalar o navegador no Linux/macOS: `npx playwright install chromium` (em Linux CI: `npx playwright install --with-deps chromium`).
+`check` executa Vitest, TypeScript e build Vite. `format:check` confere o padrão Prettier; `npm run format` aplica a formatação. Testes de navegador usam Microsoft Edge instalado no Windows e Chromium no Linux. Para instalar o navegador no Linux/macOS: `npx playwright install chromium` (em Linux CI: `npx playwright install --with-deps chromium`).
 
 O ambiente inicial usa Windows 10 e Node 24.20.0. Playwright atual documenta suporte a Windows 11+; a execução local com Edge é evidência observada, não garantia de suporte oficial ao Windows 10. O workflow GitHub Actions executa os mesmos checks em Ubuntu.
 

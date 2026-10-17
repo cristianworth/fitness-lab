@@ -12,4 +12,5 @@ SDD manual: documentos pequenos acompanham requisitos, decisões e evidências, 
 - [ ] Finalizar README, changelog, versão 0.1.0, commits e remoto GitHub.
 
 ## Delegação
+
 Agente de dados: domínio, IndexedDB e testes unitários. Agente de interface: páginas e CSS. Principal: contratos, configuração, shell, integração, backup, testes de interface e Git. Revisão independente após integração.

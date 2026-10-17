@@ -1,12 +1,14 @@
 # Fitness Lab 0.1.0 — especificação
 
 ## Decisões confirmadas
+
 - Uso pessoal em um dispositivo, sem login ou sincronização. Backup JSON exportável e restaurável.
 - Alimentos cadastrados manualmente, com calorias (kcal), proteína/carboidrato/gordura (g) por 100 g ou 100 ml.
 - Prioridade: registrar o treino durante a execução. Interface pt-BR responsiva.
 - Fuso inicial America/Sao_Paulo. Agrupamento diário explícito, sem converter datas de diário em UTC.
 
 ## Critérios de aceitação
+
 1. Criar e editar exercícios e rotinas; uma rotina contém exercícios, séries e repetições planejadas.
 2. Iniciar uma única sessão ativa, copiando nomes e planejamento. Editar a rotina não modifica sessões já iniciadas.
 3. Registrar repetições e carga em kg por série, inclusive peso corporal; desconhecido é null e zero é um valor conhecido. Salvar antes de informar sucesso e recuperar após recarga.
@@ -19,4 +21,5 @@
 10. Cliques repetidos não duplicam sessões nem consumo; transações e IDs estáveis protegem reenvios.
 
 ## Fora desta versão
+
 Contas, sincronização, catálogo nutricional externo, prescrição de treinos/dietas, metas clínicas, publicação da aplicação na internet e funcionamento offline após fechar o servidor.

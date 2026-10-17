@@ -6,10 +6,19 @@ let database: Promise<IDBPDatabase> | undefined;
 
 function getDatabase(): Promise<IDBPDatabase> {
   database ??= openDB('fitness-lab', 1, {
-    upgrade(db) { db.createObjectStore('state'); },
-    blocking() { void closeDatabase(); },
-    terminated() { database = undefined; },
-  }).catch((error: unknown) => { database = undefined; throw error; });
+    upgrade(db) {
+      db.createObjectStore('state');
+    },
+    blocking() {
+      void closeDatabase();
+    },
+    terminated() {
+      database = undefined;
+    },
+  }).catch((error: unknown) => {
+    database = undefined;
+    throw error;
+  });
   return database;
 }
 
@@ -43,7 +52,11 @@ export async function execute(command: Command): Promise<AppState> {
     await transaction.done;
     return updated;
   } catch (error) {
-    try { transaction.abort(); } catch { /* The transaction may already have aborted. */ }
+    try {
+      transaction.abort();
+    } catch {
+      /* The transaction may already have aborted. */
+    }
     await transaction.done.catch(() => undefined);
     throw error;
   }
@@ -58,7 +71,11 @@ export async function restoreState(input: AppState): Promise<AppState> {
     await transaction.done;
     return state;
   } catch (error) {
-    try { transaction.abort(); } catch { /* The transaction may already have aborted. */ }
+    try {
+      transaction.abort();
+    } catch {
+      /* The transaction may already have aborted. */
+    }
     await transaction.done.catch(() => undefined);
     throw error;
   }
