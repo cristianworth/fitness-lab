@@ -37,4 +37,6 @@ Revisor reconferiu correções e encerrou sem achados remanescentes no escopo. A
 
 ## CI e versão
 
-Workflow `.github/workflows/ci.yml`: npm ci, testes, TypeScript/build e Playwright Chromium em Ubuntu. Resultado remoto será registrado ao concluir a execução.
+Workflow `.github/workflows/ci.yml`: npm ci, formatação, testes, TypeScript/build e Playwright Chromium em Ubuntu. **CI remoto aprovado** no [run 39053215273](https://github.com/cristianworth/fitness-lab/actions/runs/39053215273), commit de código `ce55d4b`.
+
+O CI também verificou as correções de contraste durante a troca de navegação e a prontidão HTTP do teste de reinicialização. A atualização final de documentação não altera o código validado.

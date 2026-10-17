@@ -15,7 +15,7 @@ App pessoal de academia implementado majoritariamente por IA, em execução aut�
 
 ## Estado
 
-Implementados painel do dia, cadastro/edição de exercícios e rotinas, sessão ativa com gravação explícita de rascunhos, histórico/evolução, cadastro de alimentos, diário/correções e backup/restauração. Domínio e persistência têm 35 testes passando; build e tipos passaram. Revisão independente encerrada com todos os achados corrigidos. Conferir relatório final em `validation.md`.
+Versão 0.1.0 entregue. Implementados painel do dia, cadastro/edição de exercícios e rotinas, sessão ativa com gravação explícita de rascunhos, histórico/evolução, cadastro de alimentos, diário/correções e backup/restauração. Domínio e persistência têm 35 testes passando; 14 cenários de navegador, build, tipos e formatação passaram. CI Ubuntu aprovado no run 39053215273. Revisão independente encerrada com todos os achados corrigidos. Conferir relatório final em `validation.md`.
 
 Dados reais/backs/tests brutos fora do Git. Nenhuma publicação da aplicação em servidor externo. Arquivos `.local/` são auxiliares ignorados e não são necessários para executar o projeto.
 

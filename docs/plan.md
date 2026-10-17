@@ -9,7 +9,7 @@ SDD manual: documentos pequenos acompanham requisitos, decisões e evidências, 
 - [x] Integrar backup, recuperação, feedback e proteção contra reenvio.
 - [x] Validar build, testes e fluxos pelo navegador, incluindo viewport móvel.
 - [x] Revisão independente e resolução dos achados.
-- [ ] Finalizar README, changelog, versão 0.1.0, commits e remoto GitHub.
+- [x] Finalizar README, changelog, versão 0.1.0, commits e remoto GitHub.
 
 ## Delegação
 
