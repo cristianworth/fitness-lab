@@ -1,7 +1,8 @@
 import 'fake-indexeddb/auto';
 import { deleteDB, openDB } from 'idb';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createInitialState } from './domain';
+import { createInitialState, MAX_BACKUP_BYTES, serializeBackup } from './domain';
+import { stateAtBackupLimit } from './data/backup-fixture.test-helper';
 import { closeDatabase, execute, loadState, restoreState } from './repository';
 import type { AppState, Command } from './types';
 
@@ -76,4 +77,14 @@ describe('IndexedDB repository', () => {
     expect(await reopened.get('state', 'current')).toEqual({ schemaVersion: 3 });
     reopened.close();
   });
+
+  it('rolls back a command that would exceed export bytes and reopens the accepted state', async () => {
+    const state = stateAtBackupLimit(MAX_BACKUP_BYTES);
+    await restoreState(state);
+    await expect(execute({ type: 'saveFood', food: { ...state.foods[0], name: `é${'米'.repeat(119)}` } })).rejects.toThrow(/20 MiB/);
+    await closeDatabase();
+    const persisted = await loadState();
+    expect(persisted.foods[0].name).toBe(state.foods[0].name);
+    expect(serializeBackup(persisted)).toBe(JSON.stringify(state));
+  }, 15_000);
 });

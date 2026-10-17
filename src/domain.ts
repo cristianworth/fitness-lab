@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import type { AppState, Command, Meal, Nutrients, Session, WorkoutSet } from './types';
 
+export const MAX_BACKUP_BYTES = 20 * 1024 * 1024;
+
 const id = z.string().min(1).max(200).refine((value) => value.trim() === value, 'Identificador inválido.');
 const name = z.string().min(1).max(120).refine((value) => value.trim().length > 0, 'Informe um nome.');
 const text = z.string().max(2_000);
@@ -25,7 +27,7 @@ const routineItemSchema = z.object({ exerciseId: id, sets: count(30), reps: coun
 const routineSchema = z.object({ id, name, description: text, exercises: z.array(routineItemSchema).min(1).max(50) }).strict();
 const setSchema = z.object({ id, reps: nonnegative(1_000).int().nullable(), weight: nonnegative(2_000).nullable(), completed: z.boolean() }).strict()
   .refine((set) => !set.completed || (set.reps !== null && set.reps > 0 && set.weight !== null), 'Série concluída precisa de repetições maiores que zero e carga conhecida (zero é permitido).');
-const sessionExerciseSchema = z.object({ exerciseId: id, name, muscleGroup: z.string().max(120), bodyweight: z.boolean(), sets: z.array(setSchema).min(1).max(100) }).strict();
+const sessionExerciseSchema = z.object({ exerciseId: id, name, muscleGroup: z.string().max(120), bodyweight: z.boolean(), plannedSets: count(30), plannedReps: count(1_000), sets: z.array(setSchema).min(1).max(100) }).strict();
 const sessionSchema = z.object({ id, routineId: id, routineName: name, startedAt: instant, completedAt: instant.nullable(), day: daySchema, exercises: z.array(sessionExerciseSchema).min(1).max(50) }).strict();
 const foodSchema = z.object({ id, name, unit, nutrients: nutrientsSchema }).strict();
 const mealSchema = z.object({ id, day: daySchema, mealType, foodId: id, foodName: name, unit, nutrients: nutrientsSchema, quantity }).strict();
@@ -134,6 +136,7 @@ export function applyCommand(input: AppState, inputCommand: Command): AppState {
         exercises: routine.exercises.map((item, exerciseIndex) => {
           const exercise = state.exercises.find((existing) => existing.id === item.exerciseId)!;
           return { exerciseId: exercise.id, name: exercise.name, muscleGroup: exercise.muscleGroup, bodyweight: exercise.bodyweight,
+            plannedSets: item.sets, plannedReps: item.reps,
             sets: Array.from({ length: item.sets }, (_, setIndex): WorkoutSet => ({
               id: `planned:${exerciseIndex}:${setIndex}`, reps: item.reps, weight: exercise.bodyweight ? 0 : null, completed: false,
             })) };
@@ -203,14 +206,18 @@ export function dailyNutrients(meals: Meal[]): { totals: Nutrients; incomplete: 
 }
 
 export function parseBackup(text: string): AppState {
-  if (text.length > 20_000_000) throw new Error('Backup excede o limite de 20 MB.');
+  requireBackupSize(text);
   let input: unknown;
   try { input = JSON.parse(text); } catch { throw new Error('Backup inválido: o arquivo precisa conter JSON válido.'); }
   return parse(stateSchema, input);
 }
 
 export function serializeBackup(state: AppState): string {
-  const result = JSON.stringify(parse(stateSchema, state), null, 2);
-  if (result.length > 20_000_000) throw new Error('Backup excede o limite de 20 MB.');
+  const result = JSON.stringify(parse(stateSchema, state));
+  requireBackupSize(result);
   return result;
+}
+
+function requireBackupSize(text: string): void {
+  if (new TextEncoder().encode(text).byteLength > MAX_BACKUP_BYTES) throw new Error('Backup excede o limite de 20 MiB.');
 }

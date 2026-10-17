@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { applyCommand, createInitialState, dailyNutrients, dayInTimezone, mealNutrients, parseBackup, serializeBackup } from './domain';
+import { applyCommand, createInitialState, dailyNutrients, dayInTimezone, MAX_BACKUP_BYTES, mealNutrients, parseBackup, serializeBackup } from './domain';
+import { stateAtBackupLimit } from './data/backup-fixture.test-helper';
 import type { AppState, Command, Food, Meal } from './types';
 
 const now = '2026-10-17T02:30:00.000Z';
@@ -34,9 +35,11 @@ describe('workout commands', () => {
     const original = JSON.stringify(initial);
     let state = applyCommand(initial, { type: 'startSession', id: 'session', routineId: 'routine', now });
     state = applyCommand(state, { type: 'saveExercise', exercise: { id: 'squat', name: 'Novo nome', muscleGroup: 'Outro', bodyweight: true } });
+    const originalSet = state.sessions[0].exercises[0].sets[0];
+    state = applyCommand(state, { type: 'saveSet', sessionId: 'session', exerciseIndex: 0, set: { ...originalSet, reps: 8, weight: 20, completed: true } });
     state = applyCommand(state, { type: 'saveRoutine', routine: { id: 'routine', name: 'Treino B', description: '', exercises: [{ exerciseId: 'squat', sets: 3, reps: 20 }] } });
     expect(JSON.stringify(initial)).toBe(original);
-    expect(state.sessions[0]).toMatchObject({ routineName: 'Treino A', day: '2026-10-16', exercises: [{ name: 'Agachamento', muscleGroup: 'Pernas', bodyweight: false, sets: [{ reps: 10, weight: null }, { reps: 10, weight: null }] }] });
+    expect(state.sessions[0]).toMatchObject({ routineName: 'Treino A', day: '2026-10-16', exercises: [{ name: 'Agachamento', muscleGroup: 'Pernas', bodyweight: false, plannedSets: 2, plannedReps: 10, sets: [{ reps: 8, weight: 20 }, { reps: 10, weight: null }] }] });
   });
 
   it('prevents two active sessions and ignores a repeated start', () => {
@@ -130,6 +133,18 @@ describe('dates and backup validation', () => {
     expect(JSON.stringify(state)).toBe(original);
   });
 
+  it('roundtrips compact Unicode JSON at the exact UTF-8 limit and rejects one extra byte', () => {
+    const state = stateAtBackupLimit(MAX_BACKUP_BYTES);
+    const serialized = serializeBackup(state);
+    expect(serialized).toBe(JSON.stringify(state));
+    expect(serialized.length).toBeLessThan(MAX_BACKUP_BYTES);
+    expect(new TextEncoder().encode(serialized).byteLength).toBe(MAX_BACKUP_BYTES);
+    expect(parseBackup(serialized)).toEqual(state);
+    expect(() => parseBackup(`${serialized} `)).toThrow(/20 MiB/);
+    state.foods[0].name = `é${'米'.repeat(119)}`;
+    expect(() => serializeBackup(state)).toThrow(/20 MiB/);
+  }, 15_000);
+
   it.each(['2026-02-29', '2026-02-30', '2026-13-01', '2026-1-01', '0000-01-01'])('rejects nonexistent or noncanonical diary date %s', (day) => {
     expect(() => applyCommand(prepared(), { ...addMeal, day } as Command)).toThrow(/data válida/);
   });
@@ -154,7 +169,6 @@ describe('dates and backup validation', () => {
     ];
     for (const input of invalid) expect(() => parseBackup(JSON.stringify(input))).toThrow();
     expect(() => parseBackup('{')).toThrow(/JSON válido/);
-    expect(() => parseBackup(' '.repeat(20_000_001))).toThrow(/20 MB/);
   });
 
   it('rejects invalid session relationships and malformed completion', () => {
@@ -166,6 +180,8 @@ describe('dates and backup validation', () => {
       { ...state, sessions: [{ ...session, completedAt: later }] },
       { ...state, sessions: [{ ...session, routineId: 'missing' }] },
       { ...state, sessions: [{ ...session, startedAt: '2026-10-17T02:30:00Z' }] },
+      { ...state, sessions: [{ ...session, exercises: [{ ...session.exercises[0], plannedSets: 0 }] }] },
+      { ...state, sessions: [{ ...session, exercises: [{ ...session.exercises[0], plannedReps: 1_001 }] }] },
       { ...state, sessions: [{ ...session, exercises: [{ ...session.exercises[0], sets: [session.exercises[0].sets[0], session.exercises[0].sets[0]] }] }] },
     ];
     for (const input of invalid) expect(() => parseBackup(JSON.stringify(input))).toThrow();

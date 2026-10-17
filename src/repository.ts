@@ -38,6 +38,7 @@ export async function execute(command: Command): Promise<AppState> {
     const stored: unknown = await transaction.store.get('current');
     const state = stored === undefined ? createInitialState() : validate(stored);
     const updated = applyCommand(state, command);
+    serializeBackup(updated);
     await transaction.store.put(updated, 'current');
     await transaction.done;
     return updated;
