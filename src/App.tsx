@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Activity,
-  ArrowRight,
   CalendarDays,
   Check,
   ChevronRight,
@@ -50,6 +48,18 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
   const sessions = state.sessions.filter((session) => session.day === day && session.completedAt);
   const meals = state.meals.filter((meal) => meal.day === day);
   const nutrition = dailyNutrients(meals);
+  const previewRoutine = state.routines[0];
+  const previewExercises = active
+    ? active.exercises.map((exercise) => ({
+        name: exercise.name,
+        sets: exercise.plannedSets,
+        reps: exercise.plannedReps,
+      }))
+    : (previewRoutine?.exercises.map((item) => ({
+        name: state.exercises.find((exercise) => exercise.id === item.exerciseId)!.name,
+        sets: item.sets,
+        reps: item.reps,
+      })) ?? []);
   const sets = sessions
     .flatMap((session) => session.exercises.flatMap((exercise) => exercise.sets))
     .filter((set) => set.completed).length;
@@ -57,13 +67,8 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">UM DIA DE CADA VEZ</p>
-          <h1>
-            Seu ritmo.
-            <br />
-            Sua evolução.
-          </h1>
-          <p>Um espaço para cuidar da sua constância.</p>
+          <h1>Hoje</h1>
+          <p>Treino e alimentação, no mesmo diário.</p>
         </div>
         <span className="badge">
           <CalendarDays size={16} /> {dateLabel(day)}
@@ -71,29 +76,47 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
       </div>
       <section className="hero-card">
         <div className="hero-copy">
-          <span className="eyebrow">{active ? 'TREINO EM ANDAMENTO' : 'SEU PRÓXIMO PASSO'}</span>
-          <h2>{active ? active.routineName : 'O melhor treino é o que acontece.'}</h2>
+          <h2>{active ? 'Seu treino continua.' : 'Hora de treinar.'}</h2>
           <p>
             {active
               ? 'Suas séries estão salvas. Continue de onde parou.'
-              : 'Prepare sua rotina e registre cada série. O progresso começa no seu próximo movimento.'}
+              : 'Escolha uma rotina. Anote a carga e as repetições de cada série.'}
           </p>
           <button className="button primary" onClick={() => go('workouts')}>
             {active
               ? 'Continuar treino'
               : state.routines.length
                 ? 'Começar um treino'
-                : 'Criar minha rotina'}{' '}
-            <ArrowRight size={18} />
+                : 'Criar minha rotina'}
           </button>
         </div>
-        <div className="hero-art" aria-hidden="true">
-          <div className="hero-orbit orbit-one" />
-          <div className="hero-orbit orbit-two" />
-          <div className="hero-icon">
-            <Dumbbell size={84} strokeWidth={1.3} />
-          </div>
-          <span className="hero-art-caption">MOVIMENTO É PROGRESSO</span>
+        <div className="training-preview">
+          <p className="preview-label">{active ? 'Em andamento' : 'Na sua ficha'}</p>
+          <h3>{active?.routineName ?? previewRoutine?.name ?? 'Sua primeira rotina'}</h3>
+          {previewExercises.length ? (
+            <>
+              <ul className="preview-exercises">
+                {previewExercises.slice(0, 4).map((exercise, index) => (
+                  <li key={index}>
+                    <span>{exercise.name}</span>
+                    <strong aria-label={`${exercise.sets} séries de ${exercise.reps} repetições`}>
+                      {exercise.sets} × {exercise.reps}
+                    </strong>
+                  </li>
+                ))}
+              </ul>
+              <p className="preview-label">
+                Séries × repetições
+                {previewExercises.length > 4
+                  ? ` • mais ${previewExercises.length - 4} exercício(s) na rotina`
+                  : ''}
+              </p>
+            </>
+          ) : (
+            <p>
+              Cadastre os exercícios que você faz e organize as séries. Sua ficha aparecerá aqui.
+            </p>
+          )}
         </div>
       </section>
       <div className="section-title">
@@ -102,17 +125,11 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
       </div>
       <section className="stats-grid" aria-label="Resumo do dia">
         <article className="stat-card">
-          <span className="stat-icon">
-            <Dumbbell size={20} />
-          </span>
           <span>Treinos concluídos</span>
           <strong>{sessions.length}</strong>
           <small>{sets} séries realizadas</small>
         </article>
         <article className="stat-card">
-          <span className="stat-icon">
-            <Activity size={20} />
-          </span>
           <span>Energia registrada</span>
           <strong>
             {number(nutrition.totals.calories)} <small>kcal</small>
@@ -126,9 +143,6 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
           </small>
         </article>
         <article className="stat-card">
-          <span className="stat-icon">
-            <Leaf size={20} />
-          </span>
           <span>Proteína registrada</span>
           <strong>
             {number(nutrition.totals.protein, 1)} <small>g</small>
@@ -148,9 +162,8 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
           </div>
           {state.routines.length ? (
             <div className="routine-preview-list">
-              {state.routines.slice(0, 3).map((routine, index) => (
+              {state.routines.slice(0, 3).map((routine) => (
                 <button className="routine-preview" key={routine.id} onClick={() => go('workouts')}>
-                  <span className="routine-number">{String(index + 1).padStart(2, '0')}</span>
                   <span>
                     <strong>{routine.name}</strong>
                     <small>
@@ -159,14 +172,14 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
                       planejadas
                     </small>
                   </span>
-                  <ArrowRight size={18} />
+                  <ChevronRight size={18} />
                 </button>
               ))}
             </div>
           ) : (
             <div className="empty-state">
               <Dumbbell size={30} />
-              <h3>Uma rotina com a sua cara</h3>
+              <h3>Nenhuma rotina cadastrada</h3>
               <p>Cadastre seus exercícios e organize o próximo treino.</p>
               <button className="button secondary" onClick={() => go('workouts')}>
                 Organizar treinos
@@ -196,12 +209,12 @@ function Today({ state, day, go }: { state: AppState; day: string; go: (page: Pa
           ) : (
             <div className="empty-state">
               <Leaf size={30} />
-              <h3>O que fez parte do seu dia?</h3>
+              <h3>Nenhuma refeição registrada hoje</h3>
               <p>Registre alimentos e quantidades para acompanhar suas refeições.</p>
             </div>
           )}
           <button className="button secondary full-width" onClick={() => go('nutrition')}>
-            Registrar alimentação <ArrowRight size={16} />
+            Registrar alimentação
           </button>
         </section>
       </div>
@@ -259,9 +272,8 @@ function DataPage({
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">VOCÊ NO CONTROLE</p>
           <h1>Seus dados</h1>
-          <p>Um registro de constância merece ser bem cuidado.</p>
+          <p>Exporte uma cópia ou restaure seus registros.</p>
         </div>
         <Database size={32} />
       </div>
@@ -511,15 +523,18 @@ export default function App() {
             setPage('today');
           }}
         >
-          <span className="brand-mark">
-            <Activity size={23} />
-          </span>
+          <img
+            className="brand-mark"
+            src="/brand/fitness-lab-symbol.svg"
+            width="48"
+            height="48"
+            alt=""
+          />
           <span>
-            fitness<span className="brand-light">lab</span>
-            <small>SEU ESPAÇO DE EVOLUÇÃO</small>
+            <span className="brand-name">Fitness Lab</span>
+            <small>Diário de treino</small>
           </span>
         </a>
-        <p className="nav-caption">SEU ACOMPANHAMENTO</p>
         <nav aria-label="Navegação principal">
           {navigation.map((item) => (
             <button
@@ -530,7 +545,6 @@ export default function App() {
             >
               <item.icon size={21} />
               <span>{item.label}</span>
-              {page === item.id && <span className="nav-dot" />}
             </button>
           ))}
         </nav>
@@ -540,16 +554,21 @@ export default function App() {
         </div>
       </aside>
       <main className="main-content" id="main">
-        <header className="topbar">
-          <span>
-            <span className="topbar-dot" /> SEU LABORATÓRIO DE CONSTÂNCIA
-          </span>
-          <span className="profile-badge">FL</span>
-        </header>
+        <a
+          className="mobile-brand"
+          href="#"
+          onClick={(event) => {
+            event.preventDefault();
+            setPage('today');
+          }}
+        >
+          <img src="/brand/fitness-lab-symbol.svg" width="40" height="40" alt="" />
+          <span>Fitness Lab</span>
+        </a>
         {loadError ? (
           <>
             <div className="card error" role="alert">
-              <h1>Vamos recuperar a conexão com seus dados</h1>
+              <h1>Não foi possível carregar os registros</h1>
               <p>{loadError}</p>
               <button className="button primary" onClick={() => void refresh()}>
                 Tentar novamente
@@ -568,7 +587,7 @@ export default function App() {
           </>
         ) : !state || !props ? (
           <div className="loading" role="status">
-            Abrindo seu espaço…
+            Carregando registros…
           </div>
         ) : (
           <>

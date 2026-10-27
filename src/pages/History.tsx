@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight, Check, ChevronDown, History as HistoryIcon, TrendingUp } from 'lucide-react';
+import { Check, ChevronDown, History as HistoryIcon } from 'lucide-react';
 import type { PageProps } from '../types';
 
 const number = (value: number) =>
@@ -65,12 +65,8 @@ export default function History({ state }: PageProps) {
     <div className="page-stack">
       <header className="page-heading">
         <div>
-          <p className="eyebrow">CADA REGISTRO CONTA</p>
-          <h1>Olhe o quanto você já fez.</h1>
-          <p>Seu histórico e sua evolução, construídos por você.</p>
-        </div>
-        <div className="heading-icon">
-          <TrendingUp size={30} />
+          <h1>Evolução</h1>
+          <p>Compare cargas e consulte os treinos concluídos.</p>
         </div>
       </header>
       <div className="stats-grid history-stats">
@@ -95,7 +91,7 @@ export default function History({ state }: PageProps) {
       {!sessions.length ? (
         <div className="empty-state">
           <HistoryIcon size={32} />
-          <h2>Uma história para começar</h2>
+          <h2>Nenhum treino concluído</h2>
           <p>Conclua seu primeiro treino para acompanhar seus registros e sua evolução aqui.</p>
         </div>
       ) : (
@@ -103,10 +99,8 @@ export default function History({ state }: PageProps) {
           <section className="card">
             <div className="section-title">
               <div>
-                <p className="eyebrow">SEUS NÚMEROS, COM CONTEXTO</p>
                 <h2>Evolução por exercício</h2>
               </div>
-              <ArrowUpRight size={23} className="muted" />
             </div>
             <div className="form-grid">
               <label className="field">

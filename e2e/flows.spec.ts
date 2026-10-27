@@ -27,7 +27,7 @@ async function createWorkout(page: Page) {
   await page.getByLabel('Repetições', { exact: true }).fill('10');
   await page.getByRole('button', { name: 'Salvar rotina', exact: true }).click();
   await page.getByRole('button', { name: 'Iniciar treino', exact: true }).click();
-  await expect(page.getByText('EM ANDAMENTO', { exact: false })).toBeVisible();
+  await expect(page.getByText('Em andamento', { exact: false })).toBeVisible();
 }
 
 test('workout draft survives reload, completion builds history, snapshots survive edits', async ({
@@ -36,6 +36,9 @@ test('workout draft survives reload, completion builds history, snapshots surviv
   await page.goto('/');
   await createWorkout(page);
   await page.getByLabel('Carga em kg da série 1', { exact: true }).fill('30');
+  await page.locator(testInfo.project.name === 'mobile' ? '.mobile-brand' : '.brand').click();
+  await expect(page.getByLabel('Carga em kg da série 1', { exact: true })).toHaveValue('30');
+  await expect(page.getByText('Alterações ainda não salvas', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'Salvar rascunho da série 1', exact: true }).click();
   await expect(page.getByText('Alterações ainda não salvas', { exact: false })).toHaveCount(0);
   await page.reload();
@@ -45,7 +48,7 @@ test('workout draft survives reload, completion builds history, snapshots surviv
   await expect(page.getByRole('button', { name: 'Feita', exact: true })).toHaveCount(1);
   await page.screenshot({ path: testInfo.outputPath('active-workout.png'), fullPage: true });
   await page.getByRole('button', { name: 'Finalizar treino', exact: true }).click();
-  await expect(page.getByText('EM ANDAMENTO', { exact: false })).toHaveCount(0);
+  await expect(page.getByText('Em andamento', { exact: false })).toHaveCount(0);
   await page.getByRole('button', { name: 'Exercícios', exact: true }).click();
   await page.getByRole('button', { name: 'Editar Agachamento de teste', exact: true }).click();
   await page
@@ -149,13 +152,13 @@ test('backup exports, rejects invalid files and recovers a corrupt local databas
   });
   await page.reload();
   await expect(
-    page.getByRole('heading', { name: 'Vamos recuperar a conexão com seus dados', exact: true }),
+    page.getByRole('heading', { name: 'Não foi possível carregar os registros', exact: true }),
   ).toBeVisible();
   await page.getByLabel('Selecionar arquivo de backup', { exact: true }).setInputFiles(backupPath!);
   await expect(page.getByText('O arquivo contém', { exact: false })).toContainText('1 treinos');
   await page.getByRole('button', { name: 'Substituir dados e restaurar', exact: true }).click();
   await navigate(page, 'Treinos');
-  await expect(page.getByText('EM ANDAMENTO', { exact: false })).toBeVisible();
+  await expect(page.getByText('Em andamento', { exact: false })).toBeVisible();
 });
 
 test('all main screens fit the viewport and render without application errors', async ({
@@ -197,11 +200,9 @@ test('series synchronize between tabs and detect conflicting local drafts', asyn
   await expect(other.getByLabel('Carga em kg da série 1', { exact: true })).toHaveValue('30');
   await other.getByLabel('Carga em kg da série 1', { exact: true }).fill('35');
   await page.getByRole('button', { name: 'Finalizar treino', exact: true }).click();
-  await expect(other.getByText('EM ANDAMENTO', { exact: false })).toHaveCount(0);
+  await expect(other.getByText('Em andamento', { exact: false })).toHaveCount(0);
   await navigate(other, 'Evolução');
-  await expect(
-    other.getByRole('heading', { name: 'Olhe o quanto você já fez.', exact: true }),
-  ).toBeVisible();
+  await expect(other.getByRole('heading', { name: 'Evolução', exact: true })).toBeVisible();
 });
 
 test('main screens and workout editor have no detected WCAG A or AA violations', async ({

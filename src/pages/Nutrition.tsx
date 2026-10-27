@@ -60,12 +60,8 @@ export default function Nutrition({ state, dispatch, busy, day }: PageProps) {
     <div className="page-stack">
       <header className="page-heading">
         <div>
-          <p className="eyebrow">ENERGIA PARA O SEU DIA</p>
-          <h1>Um registro de cada vez.</h1>
-          <p>Seu diário de alimentação, sem complicar.</p>
-        </div>
-        <div className="heading-icon">
-          <Apple size={30} />
+          <h1>Alimentação</h1>
+          <p>Registre os alimentos e consulte os totais do dia.</p>
         </div>
       </header>
       <div className="tabs" aria-label="Áreas de alimentação">
@@ -88,7 +84,7 @@ export default function Nutrition({ state, dispatch, busy, day }: PageProps) {
         <>
           <div className="section-title">
             <div>
-              <h2>Seu dia no prato</h2>
+              <h2>Diário alimentar</h2>
               <p>
                 {meals.length} {meals.length === 1 ? 'registro' : 'registros'} de consumo
               </p>
@@ -130,7 +126,6 @@ export default function Nutrition({ state, dispatch, busy, day }: PageProps) {
           <section className="card">
             <div className="section-title">
               <div>
-                <p className="eyebrow">ADICIONAR AO DIA</p>
                 <h2>O que você comeu?</h2>
               </div>
               <Utensils size={23} className="muted" />
@@ -384,7 +379,7 @@ export default function Nutrition({ state, dispatch, busy, day }: PageProps) {
         <>
           <div className="section-title">
             <div>
-              <h2>Sua despensa digital</h2>
+              <h2>Alimentos cadastrados</h2>
               <p>Alimentos cadastrados manualmente, na sua unidade.</p>
             </div>
             <button

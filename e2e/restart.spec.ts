@@ -79,9 +79,11 @@ test('saved records survive stopping and restarting the application server', asy
     await expect(
       page.getByRole('heading', { name: 'Exercício fictício persistido', exact: true }),
     ).toBeVisible();
+    // Leave the Vite client before restart so its automatic reconnect cannot race navigation.
+    await page.goto('about:blank');
     await stopServer(server);
     server = await startServer(port);
-    await page.reload();
+    await page.goto(`http://127.0.0.1:${port}`);
     await page.getByRole('button', { name: 'Treinos', exact: true }).click();
     await page.getByRole('button', { name: 'Exercícios', exact: true }).click();
     await expect(

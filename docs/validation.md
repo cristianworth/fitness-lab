@@ -1,5 +1,17 @@
 # Validação das entregas
 
+## 0.2.0 — Redesign visual — 2026-10-27
+
+Em Windows 10/Edge, `npm run check` passou: **38 testes Vitest**, TypeScript e build. `npm run format:check` passou. A execução final de Playwright teve **18 testes aprovados**, incluindo as cinco telas preenchidas com a demo, favicon e fontes locais, navegação por teclado e ausência de transbordamento horizontal em 320 px. Axe não detectou violações WCAG A/AA nos estados verificados. Os links relativos da documentação foram conferidos.
+
+As capturas de [desktop](images/dashboard-desktop.png) e [mobile](images/dashboard-mobile.png) foram inspecionadas e mostram somente dados sintéticos. Prévia e testes principais usaram temporariamente a porta 5183: a 5173 estava ocupada por outro projeto e 5181/5182 pertencem ao teste de reinicialização. A configuração temporária em `.local/` não faz parte da distribuição; a configuração padrão continua em 5173.
+
+A revisão independente encontrou e reconferiu duas correções: o novo logo móvel passou a respeitar o bloqueio de saída com séries não salvas, com regressão coberta no teste de treino; o item ativo da navegação móvel recebeu contorno de foco escuro, distinguível do fundo laranja. O revisor conferiu as cinco telas entre 320 e 1440 px sem transbordamento horizontal e encerrou os achados sem pendências.
+
+Na validação, expectativas de títulos antigos foram atualizadas para os novos textos. O teste de reinicialização passou a sair para `about:blank` antes de desligar o servidor e a abrir novamente a origem depois: isso preserva o teste de persistência sem disputar navegação com a reconexão automática do cliente Vite. A suíte completa passou após esses ajustes.
+
+Limites: simulação móvel em navegador desktop, sem celular físico, Safari ou leitor de tela. Axe e inspeção de capturas não certificam conformidade completa nem substituem avaliação de uso durante um treino.
+
 ## 0.1.1 — Dados demonstrativos
 
 Em 17/10/2026: 38 testes Vitest passaram (35 existentes e três do dataset); TypeScript/build passaram. Os 14 cenários existentes de navegador passaram. Os dois novos cenários desktop/mobile passaram após corrigir um seletor do próprio teste (`getByLabel` → `getByRole` no combobox); validam importação da demo, persistência após recarga, carga 30→35 kg, volume inicial 540 kg × repetições e igualdade integral do backup exportado. Formatação passou.

@@ -2,6 +2,28 @@
 
 Versões seguem SemVer. A primeira entrega 0.1.0 está autorizada e pode conter vários commits. Antes de uma versão futura, propor o número e confirmar atualização de changelog/manifests/interface conforme as instruções de colaboração.
 
+## 0.2.0 — 2026-10-27
+
+Versão autorizada por Cristian para a nova identidade visual e apresentação do projeto como portfólio. O esquema de backup e as regras de dados permanecem compatíveis.
+
+### Added
+
+- Monograma FL original em SVG, compartilhado entre favicon, barra lateral e cabeçalho móvel.
+- Fontes locais Barlow e Barlow Condensed, com licenças OFL e registro de proveniência.
+- Estudo visual, paleta, decisões, referências e capturas sintéticas no README e documentação.
+- Verificações de assets, teclado, telas com demo e largura de 320 px em desktop/mobile.
+
+### Changed
+
+- Cinco telas com paleta cobalto, laranja e lavanda, tipografia compacta e navegação responsiva.
+- Painel inicial mostra exercícios, séries e repetições da rotina/sessão em vez de ilustração decorativa.
+- Textos de títulos, estados vazios e recuperação mais diretos; removidos avatar e elementos decorativos genéricos.
+- Teste de reinicialização reabre a aplicação após encerrar o servidor, evitando disputa com a reconexão automática do Vite.
+
+### Fixed
+
+- Proteção de rascunhos aplicada ao novo link da marca móvel e foco do menu ativo distinguível do fundo laranja.
+
 ## 0.1.2 — 2026-10-22
 
 Versão e adoção da licença MIT autorizadas por Cristian. Entrega de documentação e metadados, sem alteração dos fluxos ou do esquema de dados.

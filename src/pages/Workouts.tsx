@@ -190,7 +190,7 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
     window.addEventListener('beforeunload', preventLoss);
     const protectNavigation = (event: MouseEvent) => {
       const target = event.target;
-      if (target instanceof Element && target.closest('.nav-link, .brand')) {
+      if (target instanceof Element && target.closest('.nav-link, .brand, .mobile-brand')) {
         event.preventDefault();
         event.stopPropagation();
         document
@@ -258,12 +258,8 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
       )}
       <header className="page-heading">
         <div>
-          <p className="eyebrow">UM PASSO DE CADA VEZ</p>
-          <h1>Seu treino, seu ritmo.</h1>
-          <p>Planeje o básico. Registre o que você fez.</p>
-        </div>
-        <div className="heading-icon">
-          <Dumbbell size={30} />
+          <h1>Treinos</h1>
+          <p>Organize as rotinas e registre suas séries.</p>
         </div>
       </header>
       <div className="tabs" aria-label="Áreas de treino">
@@ -292,7 +288,7 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
             <section className="active-banner">
               <div>
                 <span className="badge light">
-                  <span className="status-dot" /> EM ANDAMENTO
+                  <span className="status-dot" /> Em andamento
                 </span>
                 <h2>{active.routineName}</h2>
                 <p>
@@ -323,9 +319,7 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
               <section className="card exercise-card" key={`${active.id}-${exerciseIndex}`}>
                 <div className="section-title">
                   <div>
-                    <p className="eyebrow">
-                      EXERCÍCIO {String(exerciseIndex + 1).padStart(2, '0')}
-                    </p>
+                    <p className="eyebrow">Exercício {exerciseIndex + 1}</p>
                     <h2>{item.name}</h2>
                     <p>
                       {item.muscleGroup}
@@ -416,7 +410,7 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
               <div className="large-icon">
                 <Dumbbell size={30} />
               </div>
-              <h2>Vamos colocar o corpo em movimento?</h2>
+              <h2>Prepare sua primeira rotina</h2>
               <p>
                 Escolha uma rotina para começar. Cada sessão guarda uma cópia do seu planejamento.
               </p>

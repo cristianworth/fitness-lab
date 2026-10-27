@@ -1,6 +1,6 @@
 # Fitness Lab
 
-Aplicativo pessoal de treinos e alimentação, em português do Brasil. React + TypeScript + Vite, com persistência IndexedDB no navegador. **Versão 0.1.2.**
+Aplicativo pessoal de treinos e alimentação, em português do Brasil. React + TypeScript + Vite, com persistência IndexedDB no navegador. **Versão 0.2.0.**
 
 Experimento de desenvolvimento majoritariamente por IA, com especificação, delegação, implementação e revisão independente. O código está em [cristianworth/fitness-lab](https://github.com/cristianworth/fitness-lab).
 
@@ -19,6 +19,38 @@ Cristian definiu o objetivo, escolheu as prioridades de produto e autorizou as e
 O processo usou desenvolvimento orientado por especificação (SDD) em documentos Markdown: requisitos e critérios de aceitação antes da implementação, entregas coesas no Git, revisão independente por outro agente e verificação pela interface. O uso de IA não substitui a responsabilidade de revisar alterações: os testes verificam comportamentos específicos e têm limites documentados.
 
 Leia o [relato de desenvolvimento](docs/development.md), a [arquitetura](docs/architecture.md) e as [evidências de validação](docs/validation.md). Esses documentos explicam decisões e resultados observados, sem pressupor que outro agente ou execução produza o mesmo código.
+
+## Identidade visual e portfólio
+
+<img src="public/brand/fitness-lab-symbol.svg" alt="Monograma FL em laranja sobre azul cobalto" width="72" height="72">
+
+O redesign de outubro de 2026 partiu de uma crítica de Cristian: a interface cinza e branca e o ícone genérico não davam personalidade ao projeto. A direção escolhida foi um **caderno de treino com identidade esportiva**: títulos compactos, cores fortes e uma ficha com os exercícios e séries da própria rotina no painel inicial.
+
+O símbolo **FL** foi desenhado em SVG com traços modulares, sem depender de uma fonte ou de um ícone de academia pronto. O mesmo arquivo aparece na aba do navegador, na barra lateral e no cabeçalho móvel. Os ícones Lucide continuam indicando ações e navegação; não representam a marca.
+
+![Painel desktop do Fitness Lab com rotina, séries e resumo alimentar fictícios](docs/images/dashboard-desktop.png)
+
+<details>
+<summary>Ver a interface no celular</summary>
+
+<img src="docs/images/dashboard-mobile.png" alt="Painel móvel com marca FL, ficha de treino e navegação inferior" width="390">
+
+</details>
+
+Capturas da aplicação em navegador, com dados sintéticos da demo e relógio fixado em 17/10/2026. A imagem móvel inclui a página completa; a navegação permanece fixa na base da janela durante a rolagem. Não são mockups nem registros pessoais.
+
+| Decisão                                      | Aplicação no projeto                                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Cobalto `#2836BC` e laranja `#FFB15C`        | Navegação e destaque para começar/retomar o treino.                                         |
+| Lavanda `#E8E8FA` e painel `#F7F5FF`         | Fundo e superfícies de leitura, sem a antiga predominância de cinza/branco.                 |
+| Tinta `#22234B` e texto secundário `#5D5D7C` | Hierarquia entre conteúdo principal, unidades e orientações.                                |
+| Barlow Condensed 700                         | Títulos e números, com proporção compacta que remete às fichas e à sinalização esportiva.   |
+| Barlow 400/600                               | Formulários, listas e leitura cotidiana. Arquivos servidos localmente.                      |
+| Conteúdo do próprio usuário                  | Prévia da rotina substitui a ilustração decorativa; estados vazios explicam a próxima ação. |
+
+**Fontes e referências:** [Barlow, de Jeremy Tribby](https://tribby.com/fonts/barlow/), distribuída pelo [Google Fonts](https://github.com/google/fonts/tree/main/ofl/barlow), e [Barlow Condensed](https://github.com/google/fonts/tree/main/ofl/barlowcondensed). As fontes usam SIL Open Font License 1.1; [origem, licenças e hashes dos arquivos](public/fonts/FONT-SOURCES.md) acompanham o repositório. Contraste e dimensões dos controles foram orientados pelas referências [W3C: contraste mínimo](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) e [W3C: tamanho mínimo dos alvos](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html). A paleta, a composição e o monograma são decisões deste projeto, não um template dessas fontes.
+
+O [estudo visual](docs/visual-design.md) detalha o problema, as escolhas, a implementação e os limites da validação. O redesign preserva o esquema de backup, o banco local e as regras de treino e alimentação.
 
 ## Executar localmente
 
