@@ -8,7 +8,15 @@ Os testes da demo exercitam entrada, registros pessoais preservados integralment
 
 Revisão independente identificou uma distinção ausente em `execute`: chave não existente e registro inválido com valor `undefined` pareciam iguais. A leitura transacional agora distingue os dois, com testes no banco pessoal e na janela concorrente da demo. A aplicação não usa fallback silencioso para exemplos sobre um banco corrompido.
 
-Verificação de apresentação: assets SVG e fontes locais, teclado, Axe nas telas de entrada/restauração e ausência de transbordamento em 320 px. A configuração Pages testa o prefixo real do build, incluindo o fetch do dataset. Limites: viewport móvel em navegador desktop, sem teste em aparelho físico, Safari ou leitor de tela; simulações de quota não enchem o disco. Disponibilidade pública e CI serão registrados após o deploy.
+Verificação de apresentação: assets SVG e fontes locais, teclado, Axe nas telas de entrada/restauração e ausência de transbordamento em 320 px. A configuração Pages testa o prefixo real do build, incluindo o fetch do dataset. Limites: viewport móvel em navegador desktop, sem teste em aparelho físico, Safari ou leitor de tela; simulações de quota não enchem o disco. Evidências de disponibilidade pública e CI estão abaixo.
+
+### Publicação verificada
+
+O [workflow 40928913277](https://github.com/cristianworth/fitness-lab/actions/runs/40928913277), no commit de aplicação `86e4a73`, concluiu com sucesso: testes unitários, tipos/build, formatação, suíte de 28 cenários de navegador, 10 cenários no subdiretório e deploy. GitHub Pages foi configurado com origem `workflow` e HTTPS obrigatório, sem serviço pago ou segredo adicional no workflow.
+
+Depois do deploy, os **10 cenários da demo passaram contra `https://cristianworth.github.io/fitness-lab/`**, em Edge desktop/mobile, com armazenamento isolado e dados fictícios. Isso inclui navegação, treino, alimentação, export/import, preservação do modo pessoal, cancelamento/confirmação de reset e falhas injetadas de rede/quota; não foi apenas uma verificação HTTP. As [capturas desktop](images/public-demo-desktop.png) e [mobile](images/public-demo-mobile.png) vieram dessa execução e foram inspecionadas. Não houve avaliação em aparelho físico nem leitor de tela.
+
+A abertura automatizada no navegador integrado encontrou uma falha de inicialização da ferramenta local; a validação pública acima foi feita com Playwright em contextos independentes. A atualização de README/capturas após o deploy altera apenas documentação, mantendo o código de aplicação verificado.
 
 ## 0.2.0 — Redesign visual — 2026-10-27
 

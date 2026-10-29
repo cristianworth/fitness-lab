@@ -2,13 +2,17 @@
 
 Diário pessoal de treinos e alimentação para registrar o que você fez e acompanhar o histórico. Organize rotinas, retome uma sessão e consulte cargas, volume, energia e proteína sem criar conta ou configurar um servidor de dados.
 
-## Experimente localmente
+## Experimente online
 
-**Publicação online em validação.** [Execute o aplicativo](#executar-localmente) e escolha **Experimentar demonstração**. Treinos, alimentação e evolução fictícios são carregados automaticamente em um banco separado dos seus registros pessoais. Não exige conta, instalação ou importação de arquivo. [Roteiro de cinco minutos](docs/public-demo.md).
+[![Experimentar online](docs/assets/try-demo-pt.svg)](https://cristianworth.github.io/fitness-lab/?mode=demo)
 
-![Painel desktop do Fitness Lab com exercícios, séries e resumo alimentar fictícios](docs/images/dashboard-desktop.png)
+[Abrir a demonstração do Fitness Lab](https://cristianworth.github.io/fitness-lab/?mode=demo). Sem conta, instalação ou importação de arquivo: treinos, alimentação e evolução fictícios são carregados automaticamente em um banco separado dos registros pessoais.
 
-Captura da aplicação com dados sintéticos e relógio fixado em 17/10/2026. [Interface móvel e decisões visuais](docs/visual-design.md).
+As operações funcionam e suas alterações ficam no navegador. **Restaurar exemplos** pede confirmação; **Voltar ao modo pessoal** preserva os registros anteriores. Na [entrada principal](https://cristianworth.github.io/fitness-lab/), escolha **Experimentar demonstração**. [Roteiro de revisão de até cinco minutos](docs/public-demo.md#roteiro-de-revisão--até-cinco-minutos).
+
+![Demonstração pública do Fitness Lab com modo identificado, sugestões, ficha de treino e resumo alimentar fictício](docs/images/public-demo-desktop.png)
+
+Captura da versão pública em 29/10/2026. A consulta demonstrativa usa 17/10/2026; novos treinos usam a data real. [Captura móvel](docs/images/public-demo-mobile.png) e [decisões visuais](docs/visual-design.md).
 
 ## O que você pode fazer
 
@@ -47,7 +51,7 @@ Abra **http://127.0.0.1:5173**. Os dados pertencem à origem e ao perfil do nave
 
 ## Estado e desenvolvimento
 
-Versão **0.3.0**, com demonstração isolada e publicação estática preparada para GitHub Pages. As operações da demo funcionam e ficam no navegador; os registros usados como ponto de partida são fictícios. Não há instalação PWA, edição de treinos finalizados ou sincronização. Limpar os dados do site pode apagar registros: exporte backups.
+Versão **0.3.0**, com demonstração isolada publicada por HTTPS no GitHub Pages. As operações da demo funcionam e ficam no navegador; os registros usados como ponto de partida são fictícios. Não há instalação PWA, edição de treinos finalizados ou sincronização. Limpar os dados do site pode apagar registros: exporte backups.
 
 Cristian definiu o objetivo e as prioridades e avaliou o produto. Agentes de IA conduziram pesquisa, especificação, implementação, testes e revisão. O repositório registra esse processo e seus limites, sem apresentar geração de código como domínio manual da stack. [Relato de desenvolvimento](docs/development.md).
 

@@ -1,6 +1,6 @@
 # Publicação no GitHub Pages
 
-A demonstração pública usa hospedagem estática do GitHub Pages, disponível para repositórios públicos no GitHub Free. A URL esperada para este repositório é [cristianworth.github.io/fitness-lab](https://cristianworth.github.io/fitness-lab/). A publicação efetiva é confirmada pelo job `deploy`, não pela existência deste documento. [Documentação do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+A demonstração pública usa hospedagem estática do GitHub Pages, disponível para repositórios públicos no GitHub Free. Está publicada em [cristianworth.github.io/fitness-lab](https://cristianworth.github.io/fitness-lab/), com HTTPS obrigatório e origem `workflow`, verificados em 29/10/2026. [Deploy aprovado](https://github.com/cristianworth/fitness-lab/actions/runs/40928913277) e [validação pública dos fluxos](validation.md). [Documentação do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 
 ## Configuração inicial
 

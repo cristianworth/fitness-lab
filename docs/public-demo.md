@@ -2,6 +2,8 @@
 
 A versão 0.3.0 permite experimentar o Fitness Lab com exemplos, sem conta, instalação ou importação manual. O site entrega arquivos estáticos; treinos e alimentação são fictícios, mas as ações de salvar, calcular, exportar e recuperar dados são implementadas e persistem no navegador.
 
+[Entrada principal](https://cristianworth.github.io/fitness-lab/) · [Abrir diretamente os exemplos](https://cristianworth.github.io/fitness-lab/?mode=demo). Publicação e fluxos conferidos em 29/10/2026; [evidências](validation.md).
+
 ## Roteiro de revisão — até cinco minutos
 
 1. **Entrada (30 s):** abra o site e escolha **Experimentar demonstração**. Confira a identificação de dados fictícios e o painel com alimentação em 17/10/2026. As três sugestões são atalhos opcionais.
@@ -22,14 +24,26 @@ Origem e perfil do navegador determinam onde os dados ficam. O site público, lo
 
 ## Fontes e apresentação
 
+![Demonstração publicada em desktop](images/public-demo-desktop.png)
+
+<details>
+<summary>Ver a demonstração no celular</summary>
+
+<img src="images/public-demo-mobile.png" width="390" alt="Demonstração em viewport móvel com dados fictícios, sugestões e navegação inferior">
+
+</details>
+
+Capturas do endereço público em 29/10/2026, com perfis isolados e dataset original. Viewports de 1280 × 720 e 390 × 844; imagens de página completa. A navegação móvel fixa aparece na altura da janela inicial. Não houve simulação de relógio nessas capturas.
+
 O dataset foi reaproveitado sem alteração de unidades, snapshots e cálculos. [Fontes nutricionais e de treino](demo-data.md), [identidade visual](visual-design.md), [arquitetura](architecture.md) e [publicação](deployment.md) detalham as decisões. Capturas de portfólio usam somente esse conjunto fictício; não representam usuários reais nem resultados físicos medidos.
 
 ## Resumo para o chat do site
 
 - **Proposta:** diário pessoal de academia que registra séries, repetições, carga e alimentação, com histórico preservado e uso local no navegador.
 - **Código:** [cristianworth/fitness-lab](https://github.com/cristianworth/fitness-lab).
+- **Demo:** [entrada direta com exemplos](https://cristianworth.github.io/fitness-lab/?mode=demo), publicada por HTTPS e verificada em 29/10/2026.
 - **Fluxos demonstráveis:** iniciar/salvar/retomar/finalizar treino; explorar carga/volume; adicionar/editar consumo; exportar e restaurar exemplos.
 - **Decisões:** React/TypeScript, IndexedDB transacional, snapshots, banco demo separado, dataset existente e hospedagem estática GitHub Pages. Sem backend ou conta.
 - **Limites:** armazenamento por origem/perfil, exemplos fictícios e datas identificadas; sem sincronização, prescrição ou composição corporal. Implementado com assistência de IA, direção e revisão de Cristian; verificações específicas não equivalem a certificação.
 
-A URL e as evidências da publicação serão registradas após a verificação do deploy. Este resumo é um arquivo para consulta; não envia mensagens a outros chats.
+**Evidência:** [CI e deploy aprovados](https://github.com/cristianworth/fitness-lab/actions/runs/40928913277), mais 10 testes de navegador executados contra o site publicado em desktop/mobile. [Captura desktop](images/public-demo-desktop.png) e [captura móvel](images/public-demo-mobile.png). Este resumo é um arquivo para consulta; não envia mensagens a outros chats.
