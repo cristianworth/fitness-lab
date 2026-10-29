@@ -12,9 +12,12 @@ const dateLabel = (day: string) =>
     timeZone: 'UTC',
   }).format(new Date(`${day}T12:00:00Z`));
 
-export default function History({ state }: PageProps) {
+export default function History({
+  state,
+  preferredExerciseId,
+}: PageProps & { preferredExerciseId?: string }) {
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [exerciseId, setExerciseId] = useState('');
+  const [exerciseId, setExerciseId] = useState(preferredExerciseId ?? '');
   const [metric, setMetric] = useState<'load' | 'volume'>('load');
   const sessions = state.sessions
     .filter((session) => session.completedAt)
@@ -28,7 +31,9 @@ export default function History({ state }: PageProps) {
       ),
     ).entries(),
   ];
-  const selectedId = exerciseId || exercises[0]?.[0] || '';
+  const selectedId = exercises.some(([id]) => id === exerciseId)
+    ? exerciseId
+    : exercises[0]?.[0] || '';
   const progression = sessions
     .slice()
     .reverse()

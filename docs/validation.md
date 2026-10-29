@@ -1,5 +1,15 @@
 # Validação das entregas
 
+## 0.3.0 — Demonstração pública — 2026-10-29
+
+Validação local em Windows/Edge: **52 testes unitários** aprovados, TypeScript/build e formatação aprovados. A suíte de 28 cenários de navegador passou em 27 na primeira execução completa; o cenário móvel de sincronização entre abas excedeu o tempo enquanto o aviso de gravação cobria o botão de finalização. O teste passou a fechar esse aviso explicitamente, e os dois cenários de sincronização desktop/mobile passaram na reconferência. Os **10 cenários da demo** também passaram contra o build de produção servido em `/fitness-lab/`.
+
+Os testes da demo exercitam entrada, registros pessoais preservados integralmente por exportação comparada, sessão com data real/salvamento/retomada/finalização, progressão fictícia, adição/edição de consumo e totais, persistência, exportação, importação restrita ao modo, restauração cancelada/confirmada e proteção de rascunhos na troca de modo. Foram simuladas falhas de rede, quota e acesso ao armazenamento. Testes do repositório cobrem seed concorrente, corrupção e rollback sem substituir dados anteriores.
+
+Revisão independente identificou uma distinção ausente em `execute`: chave não existente e registro inválido com valor `undefined` pareciam iguais. A leitura transacional agora distingue os dois, com testes no banco pessoal e na janela concorrente da demo. A aplicação não usa fallback silencioso para exemplos sobre um banco corrompido.
+
+Verificação de apresentação: assets SVG e fontes locais, teclado, Axe nas telas de entrada/restauração e ausência de transbordamento em 320 px. A configuração Pages testa o prefixo real do build, incluindo o fetch do dataset. Limites: viewport móvel em navegador desktop, sem teste em aparelho físico, Safari ou leitor de tela; simulações de quota não enchem o disco. Disponibilidade pública e CI serão registrados após o deploy.
+
 ## 0.2.0 — Redesign visual — 2026-10-27
 
 Em Windows 10/Edge, `npm run check` passou: **38 testes Vitest**, TypeScript e build. `npm run format:check` passou. A execução final de Playwright teve **18 testes aprovados**, incluindo as cinco telas preenchidas com a demo, favicon e fontes locais, navegação por teclado e ausência de transbordamento horizontal em 320 px. Axe não detectou violações WCAG A/AA nos estados verificados. Os links relativos da documentação foram conferidos.

@@ -190,7 +190,10 @@ export default function Workouts({ state, dispatch, busy }: PageProps) {
     window.addEventListener('beforeunload', preventLoss);
     const protectNavigation = (event: MouseEvent) => {
       const target = event.target;
-      if (target instanceof Element && target.closest('.nav-link, .brand, .mobile-brand')) {
+      if (
+        target instanceof Element &&
+        target.closest('.nav-link, .brand, .mobile-brand, [data-leave-workout]')
+      ) {
         event.preventDefault();
         event.stopPropagation();
         document

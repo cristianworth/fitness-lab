@@ -194,6 +194,7 @@ test('series synchronize between tabs and detect conflicting local drafts', asyn
   await other.getByLabel('Carga em kg da série 1', { exact: true }).fill('25');
   await page.getByLabel('Carga em kg da série 1', { exact: true }).fill('30');
   await page.getByRole('button', { name: 'Concluir', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Fechar mensagem', exact: true }).click();
   await expect(other.getByText('Esta série mudou em outra aba.', { exact: false })).toBeVisible();
   await expect(other.getByRole('button', { name: 'Finalizar treino', exact: true })).toBeDisabled();
   await other.getByRole('button', { name: 'Carregar registro salvo', exact: true }).click();

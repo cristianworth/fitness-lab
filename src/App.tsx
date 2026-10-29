@@ -21,7 +21,8 @@ import {
   parseBackup,
   serializeBackup,
 } from './domain';
-import { execute, loadState, restoreState } from './repository';
+import { execute, loadState, restoreState, restoreDemo, type DataMode } from './repository';
+import { DEMO_DAY } from './demo';
 import Workouts from './pages/Workouts';
 import Nutrition from './pages/Nutrition';
 import History from './pages/History';
@@ -231,11 +232,17 @@ function DataPage({
   busy,
   perform,
   notify,
+  mode,
+  resetRequested,
+  onResetClose,
 }: {
   state: AppState;
   busy: boolean;
   perform: (task: () => Promise<AppState>, message: string) => Promise<boolean>;
   notify: (text: string, error?: boolean) => void;
+  mode: DataMode;
+  resetRequested: boolean;
+  onResetClose: () => void;
 }) {
   const [candidate, setCandidate] = useState<AppState | null>(null);
   const [reading, setReading] = useState(false);
@@ -254,13 +261,13 @@ function DataPage({
   }, []);
   const exportData = async () => {
     try {
-      const latest = await loadState();
+      const latest = await loadState(mode);
       const url = URL.createObjectURL(
         new Blob([serializeBackup(latest)], { type: 'application/json' }),
       );
       const link = document.createElement('a');
       link.href = url;
-      link.download = `fitness-lab-backup-${dayInTimezone(new Date(), latest.timezone)}.json`;
+      link.download = `fitness-lab-${mode === 'demo' ? 'demo-' : ''}backup-${dayInTimezone(new Date(), latest.timezone)}.json`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       notify('Backup exportado. Guarde o arquivo em um local seguro.');
@@ -277,6 +284,50 @@ function DataPage({
         </div>
         <Database size={32} />
       </div>
+      {mode === 'demo' && (
+        <section className="card demo-reset">
+          <h2>Exemplos da demonstração</h2>
+          <p>
+            Restaure o conjunto fictício original. Os registros do modo pessoal ficam preservados.
+          </p>
+          {resetRequested && (
+            <div
+              className="restore-confirm"
+              role="region"
+              aria-label="Confirmar restauração dos exemplos"
+            >
+              <h3>Descartar alterações da demonstração?</h3>
+              <p>
+                Isso substitui somente os dados da demo, incluindo treinos em andamento. Exporte um
+                backup se quiser guardar sua experiência.
+              </p>
+              <div className="button-row">
+                <button
+                  className="button primary"
+                  autoFocus
+                  disabled={busy}
+                  onClick={async () => {
+                    if (
+                      await perform(
+                        restoreDemo,
+                        'Exemplos restaurados. Seus registros pessoais foram preservados.',
+                      )
+                    ) {
+                      setCandidate(null);
+                      onResetClose();
+                    }
+                  }}
+                >
+                  Restaurar dados fictícios
+                </button>
+                <button className="button secondary" disabled={busy} onClick={onResetClose}>
+                  Cancelar restauração
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
       <section className="card">
         <div className="section-title">
           <h2>Backup e recuperação</h2>
@@ -328,8 +379,11 @@ function DataPage({
               registros de alimentação e {candidate.routines.length} rotinas.
             </p>
             <p>
-              <strong>Isso substituirá todos os registros atuais deste navegador.</strong> Exporte
-              seus dados atuais antes de continuar.
+              <strong>
+                Isso substituirá os registros do modo {mode === 'demo' ? 'demonstração' : 'pessoal'}{' '}
+                neste navegador.
+              </strong>{' '}
+              Exporte seus dados atuais antes de continuar.
             </p>
             <div className="button-row">
               <button
@@ -337,7 +391,10 @@ function DataPage({
                 disabled={busy}
                 onClick={async () => {
                   if (
-                    await perform(() => restoreState(candidate), 'Backup restaurado com sucesso.')
+                    await perform(
+                      () => restoreState(candidate, mode),
+                      'Backup restaurado com sucesso.',
+                    )
                   )
                     setCandidate(null);
                 }}
@@ -413,6 +470,10 @@ function DataPage({
 }
 
 export default function App() {
+  const [mode] = useState<DataMode>(() =>
+    new URLSearchParams(window.location.search).get('mode') === 'demo' ? 'demo' : 'personal',
+  );
+  const [resetRequested, setResetRequested] = useState(false);
   const [state, setState] = useState<AppState | null>(null);
   const [page, setPage] = useState<Page>('today');
   const [busy, setBusy] = useState(false);
@@ -432,18 +493,20 @@ export default function App() {
     if (lock.current) return;
     const ticket = ++generation.current;
     try {
-      const data = await loadState();
+      const data = await loadState(mode);
       if (ticket === generation.current) {
         setState(data);
         setLoadError('');
       }
-    } catch {
+    } catch (error) {
       if (ticket === generation.current)
         setLoadError(
-          'Não foi possível abrir seus dados. Verifique se o navegador permite armazenamento local e tente novamente.',
+          error instanceof Error
+            ? `${error.message} Verifique a conexão e se o navegador permite armazenamento local. Tente novamente; os registros existentes não foram substituídos.`
+            : 'Não foi possível abrir os dados deste modo. Verifique se o navegador permite armazenamento local e tente novamente.',
         );
     }
-  }, []);
+  }, [mode]);
   useEffect(() => {
     void refresh();
     const timer = setInterval(() => setClock(Date.now()), 30000);
@@ -453,7 +516,9 @@ export default function App() {
     };
     window.addEventListener('focus', onFocus);
     if ('BroadcastChannel' in window) {
-      channel.current = new BroadcastChannel('fitness-lab-updates');
+      channel.current = new BroadcastChannel(
+        mode === 'demo' ? 'fitness-lab-demo-updates' : 'fitness-lab-updates',
+      );
       channel.current.onmessage = () => {
         void refresh();
       };
@@ -500,14 +565,26 @@ export default function App() {
   const dispatch = useCallback(
     (command: Command) =>
       perform(
-        () => execute(command),
+        () => execute(command, mode),
         command.type === 'finishSession'
           ? 'Treino concluído. Cada série conta!'
           : 'Salvo no seu dispositivo.',
       ),
-    [perform],
+    [perform, mode],
   );
-  const day = state ? dayInTimezone(new Date(clock), state.timezone) : '';
+  const day = state
+    ? mode === 'demo'
+      ? DEMO_DAY
+      : dayInTimezone(new Date(clock), state.timezone)
+    : '';
+  const switchMode = () => {
+    if (lock.current) return;
+    const destination = new URL(window.location.href);
+    destination.hash = '';
+    if (mode === 'personal') destination.searchParams.set('mode', 'demo');
+    else destination.searchParams.delete('mode');
+    window.location.assign(destination.href);
+  };
   const props: PageProps | null = state ? { state, dispatch, busy, day } : null;
   return (
     <div className="app-shell">
@@ -525,7 +602,7 @@ export default function App() {
         >
           <img
             className="brand-mark"
-            src="/brand/fitness-lab-symbol.svg"
+            src={`${import.meta.env.BASE_URL}brand/fitness-lab-symbol.svg`}
             width="48"
             height="48"
             alt=""
@@ -562,9 +639,50 @@ export default function App() {
             setPage('today');
           }}
         >
-          <img src="/brand/fitness-lab-symbol.svg" width="40" height="40" alt="" />
+          <img
+            src={`${import.meta.env.BASE_URL}brand/fitness-lab-symbol.svg`}
+            width="40"
+            height="40"
+            alt=""
+          />
           <span>Fitness Lab</span>
         </a>
+        <section
+          className={`mode-banner ${mode === 'demo' ? 'demo-mode' : ''}`}
+          aria-label="Modo de uso"
+        >
+          <div>
+            <h2>{mode === 'demo' ? 'Demonstração · dados fictícios' : 'Modo pessoal'}</h2>
+            <p>
+              {mode === 'demo'
+                ? 'Painel e alimentação em 17/10/2026. Novos treinos usam a data atual. Suas alterações ficam só neste navegador.'
+                : 'Experimente treinos, refeições e evolução preenchidos em um espaço separado dos seus registros.'}
+            </p>
+          </div>
+          <div className="button-row">
+            <button
+              className="button secondary"
+              data-leave-workout
+              disabled={busy}
+              onClick={switchMode}
+            >
+              {mode === 'demo' ? 'Voltar ao modo pessoal' : 'Experimentar demonstração'}
+            </button>
+            {mode === 'demo' && (
+              <button
+                className="text-button"
+                data-leave-workout
+                disabled={busy}
+                onClick={() => {
+                  setPage('data');
+                  setResetRequested(true);
+                }}
+              >
+                Restaurar exemplos
+              </button>
+            )}
+          </div>
+        </section>
         {loadError ? (
           <>
             <div className="card error" role="alert">
@@ -583,6 +701,9 @@ export default function App() {
               busy={busy}
               perform={perform}
               notify={notify}
+              mode={mode}
+              resetRequested={resetRequested}
+              onResetClose={() => setResetRequested(false)}
             />
           </>
         ) : !state || !props ? (
@@ -591,12 +712,38 @@ export default function App() {
           </div>
         ) : (
           <>
+            {mode === 'demo' && page === 'today' && (
+              <section className="demo-suggestions" aria-label="Sugestões para experimentar">
+                <button className="button secondary" onClick={() => setPage('workouts')}>
+                  Experimentar um treino
+                </button>
+                <button className="button secondary" onClick={() => setPage('history')}>
+                  Explorar evolução
+                </button>
+                <button className="button secondary" onClick={() => setPage('nutrition')}>
+                  Editar alimentação
+                </button>
+              </section>
+            )}
             {page === 'today' && <Today state={state} day={day} go={setPage} />}
             {page === 'workouts' && <Workouts {...props} />}
             {page === 'nutrition' && <Nutrition {...props} />}
-            {page === 'history' && <History {...props} />}
+            {page === 'history' && (
+              <History
+                {...props}
+                preferredExerciseId={mode === 'demo' ? 'demo-exercise-bench' : undefined}
+              />
+            )}
             {page === 'data' && (
-              <DataPage state={state} busy={busy} perform={perform} notify={notify} />
+              <DataPage
+                state={state}
+                busy={busy}
+                perform={perform}
+                notify={notify}
+                mode={mode}
+                resetRequested={resetRequested}
+                onResetClose={() => setResetRequested(false)}
+              />
             )}
           </>
         )}

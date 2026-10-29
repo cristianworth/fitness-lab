@@ -8,6 +8,10 @@ Os registros ficam no IndexedDB, vinculados à origem e ao perfil do navegador. 
 
 Limpar dados do site, usar navegação privada ou sofrer remoção de armazenamento pode apagar o histórico. Guarde backups em um local apropriado e privado. O backup de demonstração do repositório é fictício; ele não deve ser substituído por registros reais em um commit ou pull request.
 
+## Demonstração pública
+
+A demonstração pública distribui arquivos estáticos por HTTPS e carrega um dataset fictício público. As alterações feitas no produto ficam no navegador; não são publicadas no repositório ou enviadas como registros a um backend. O modo demo tem banco separado do pessoal, mas ambos pertencem à mesma origem: não se trata de isolamento de segurança contra código dessa origem. Use dados fictícios para avaliar a demo e mantenha backups pessoais privados.
+
 ## Relatar uma vulnerabilidade
 
 Não publique dados pessoais, credenciais, backups reais ou detalhes de exploração em uma issue pública. Se a aba **Security** do GitHub oferecer **Report a vulnerability**, use esse canal privado. A disponibilidade desse recurso depende da configuração do repositório; este documento não afirma que ele está habilitado.

@@ -6,7 +6,8 @@ Este conjunto é **inteiramente fictício**. Exercícios e alimentos existem; da
 
 - Arquivo: [fitness-lab-demo.json](../public/demo/fitness-lab-demo.json), compatível com o esquema 1 de importação.
 - Com o servidor local aberto, baixe em [localhost de desenvolvimento](http://127.0.0.1:5173/demo/fitness-lab-demo.json).
-- Em **Seus dados**, exporte seus registros antes de experimentar. Importe o arquivo demonstrativo, confira o resumo e confirme a restauração. **A importação substitui o banco atual; não mescla os registros.**
+- Desde a versão 0.3.0, **Experimentar demonstração** carrega o arquivo automaticamente em banco separado. O painel e o diário começam em 17/10/2026; datas do dataset são mantidas e novas sessões usam a data real. [Roteiro da demo](public-demo.md).
+- A importação manual continua disponível em **Seus dados**: exporte seus registros antes, confira o resumo e confirme a restauração. **A importação substitui somente o banco do modo ativo; não mescla os registros.**
 - Em **Evolução**, selecione “Supino reto com barra” e alterne carga/volume. Em **Alimentação**, consulte, por exemplo, `2026-10-16` para um dia completo ou `2026-10-17` para café da manhã e almoço.
 - Use **Exportar backup** para salvar o conjunto carregado, inclusive alterações feitas durante a experiência. Backups pessoais ficam fora do Git.
 - `npm run demo:generate` recria o arquivo público com datas fixas. O gerador não acessa nem modifica o banco do navegador. Não é executado automaticamente na inicialização.

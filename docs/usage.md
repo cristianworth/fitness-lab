@@ -1,4 +1,12 @@
-# Uso local e dados do Fitness Lab
+# Uso e dados do Fitness Lab
+
+## Experimentar a demonstração
+
+Use **Experimentar demonstração** para abrir os exemplos em um banco separado. A faixa identifica o modo e a data demonstrativa. As três sugestões abrem treino, evolução e alimentação; não há tutorial obrigatório. A URL com `?mode=demo` permite entrada direta e preserva o modo após recarga.
+
+**Voltar ao modo pessoal** reabre seus registros anteriores. **Restaurar exemplos** pede confirmação e descarta somente alterações da demo. Exportação e importação em **Seus dados** afetam o modo indicado na faixa. Uma importação manual no modo pessoal ainda substitui o banco pessoal após confirmação; prefira a entrada isolada para testar.
+
+Consulte o [roteiro de até cinco minutos](public-demo.md). Painel e alimentação começam em 17/10/2026 para mostrar registros. Novos treinos usam a data atual e aparecem no histórico; não é necessário alterar o relógio do dispositivo.
 
 ## Executar localmente
 
@@ -43,11 +51,11 @@ Encerre o servidor de desenvolvimento antes de abrir o preview, que usa o mesmo 
 7. Edite os nutrientes do alimento no cadastro. O consumo anterior mantém os valores originais; novos consumos usam o cadastro atualizado.
 8. **Seus dados → Exportar backup:** guarde o JSON. Importe-o, confira o resumo e confirme a substituição somente se quiser restaurar esse arquivo. Arquivos inválidos não alteram os registros.
 
-O app começa vazio. Os exemplos acima e os dados dos testes são fictícios. Testes automatizados usam perfis isolados e não alteram seus registros pessoais.
+O modo pessoal começa vazio. A demonstração carrega exemplos na primeira entrada, preserva alterações nas entradas seguintes e só restaura os exemplos mediante confirmação. Os dados dos testes são fictícios; os testes usam perfis isolados.
 
 ### Demonstração com histórico
 
-Está disponível um [arquivo JSON demonstrativo](../public/demo/fitness-lab-demo.json) com 24 treinos, 2 rotinas, 10 exercícios, 12 alimentos da TACO e 55 dias de alimentação fictícia. Com o app rodando, [baixe o arquivo local](http://127.0.0.1:5173/demo/fitness-lab-demo.json) e importe em **Seus dados**. A importação substitui os registros: exporte seu backup antes. A demo não é carregada automaticamente.
+Está disponível um [arquivo JSON demonstrativo](../public/demo/fitness-lab-demo.json) com 24 treinos, 2 rotinas, 10 exercícios, 12 alimentos da TACO e 55 dias de alimentação fictícia. A entrada **Experimentar demonstração** carrega esse arquivo automaticamente, sem download manual. O JSON continua disponível para estudo e importação; importações substituem os registros do modo ativo após confirmação.
 
 Veja [fontes, unidades, datas e limites da simulação](demo-data.md). `npm run demo:generate` reproduz o arquivo. Em Evolução, o supino passa de 30 a 35 kg com platôs e uma semana mais leve. O app não mede composição ou definição corporal.
 

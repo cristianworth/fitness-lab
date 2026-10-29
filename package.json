@@ -2,7 +2,7 @@
   "name": "fitness-lab",
   "private": true,
   "license": "MIT",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -15,6 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:pages": "playwright test --config playwright.pages.config.ts",
     "check": "npm run test && npm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

@@ -4,7 +4,7 @@ Diário pessoal de treinos e alimentação para registrar o que você fez e acom
 
 ## Experimente localmente
 
-**A versão online ainda não foi publicada.** [Execute o aplicativo](#executar-localmente) e use o [arquivo de demonstração](public/demo/fitness-lab-demo.json) com treinos e alimentação fictícios. A importação substitui os dados existentes: exporte um backup antes de testar os exemplos.
+**Publicação online em validação.** [Execute o aplicativo](#executar-localmente) e escolha **Experimentar demonstração**. Treinos, alimentação e evolução fictícios são carregados automaticamente em um banco separado dos seus registros pessoais. Não exige conta, instalação ou importação de arquivo. [Roteiro de cinco minutos](docs/public-demo.md).
 
 ![Painel desktop do Fitness Lab com exercícios, séries e resumo alimentar fictícios](docs/images/dashboard-desktop.png)
 
@@ -18,6 +18,7 @@ Captura da aplicação com dados sintéticos e relógio fixado em 17/10/2026. [I
 - Cadastrar alimentos e registrar consumo por quantidade, refeição e data, com correção e remoção.
 - Exportar e restaurar backups JSON validados antes da substituição dos registros.
 - Usar a interface em computador ou celular, com feedback de gravação e navegação por teclado.
+- Experimentar dados fictícios em modo isolado, manter alterações após recarga e restaurar exemplos com confirmação.
 
 O app não prescreve treinos ou dietas, não estima composição corporal e não sincroniza dispositivos. [Uso, unidades e limites](docs/usage.md).
 
@@ -46,7 +47,7 @@ Abra **http://127.0.0.1:5173**. Os dados pertencem à origem e ao perfil do nave
 
 ## Estado e desenvolvimento
 
-Versão **0.2.0**, com identidade visual esportiva, persistência local e dados demonstrativos. Não há instalação PWA, edição de treinos finalizados ou hospedagem pública nesta versão.
+Versão **0.3.0**, com demonstração isolada e publicação estática preparada para GitHub Pages. As operações da demo funcionam e ficam no navegador; os registros usados como ponto de partida são fictícios. Não há instalação PWA, edição de treinos finalizados ou sincronização. Limpar os dados do site pode apagar registros: exporte backups.
 
 Cristian definiu o objetivo e as prioridades e avaliou o produto. Agentes de IA conduziram pesquisa, especificação, implementação, testes e revisão. O repositório registra esse processo e seus limites, sem apresentar geração de código como domínio manual da stack. [Relato de desenvolvimento](docs/development.md).
 
@@ -61,6 +62,7 @@ npm run format:check
 - [Contribuição](CONTRIBUTING.md) e [issues](https://github.com/cristianworth/fitness-lab/issues).
 - [Segurança e privacidade](SECURITY.md).
 - [Dados demonstrativos](docs/demo-data.md), [decisões](docs/decisions.md) e [identidade visual](docs/visual-design.md).
+- [Roteiro e resumo para o portfólio](docs/public-demo.md), [publicação](docs/deployment.md) e [validação](docs/validation.md).
 - [Changelog](CHANGELOG.md): entregas publicadas; ideias futuras não são funcionalidades disponíveis.
 
 Código e documentação originais sob [MIT](LICENSE). [Créditos e materiais de terceiros](NOTICE.md) preservam as licenças e atribuições de fontes, dependências e referências nutricionais.

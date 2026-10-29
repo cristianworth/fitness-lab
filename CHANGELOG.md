@@ -2,6 +2,25 @@
 
 Versões seguem SemVer. A primeira entrega 0.1.0 está autorizada e pode conter vários commits. Antes de uma versão futura, propor o número e confirmar atualização de changelog/manifests/interface conforme as instruções de colaboração.
 
+## 0.3.0 — 2026-10-29
+
+Versão, commits, push e publicação gratuita no GitHub Pages autorizados por Cristian para esta entrega.
+
+### Added
+
+- Entrada direta para demonstração, com dados fictícios carregados sem importação manual em banco separado dos registros pessoais.
+- Identificação do modo, três sugestões de uso, persistência após recarga e restauração dos exemplos com confirmação.
+- Dia demonstrativo identificado em 17/10/2026 e seleção inicial de evolução do supino, preservando o relógio real de novas sessões e do modo pessoal.
+- Testes de isolamento, inicialização concorrente, corrupção, falhas de armazenamento/rede e jornada da demo em desktop/mobile.
+- Publicação por GitHub Actions condicionada à CI e a testes do build no subdiretório `/fitness-lab/`.
+- Guia de demonstração, publicação e resumo para apresentação do projeto no portfólio.
+
+### Changed
+
+- Comandos, importação/exportação e notificações entre abas respeitam o modo ativo; backup da demo recebe nome identificável.
+- Marca e JSON usam a base do build para funcionar no GitHub Pages.
+- Proteção de rascunhos também cobre a troca de modo e o acesso à restauração de exemplos.
+
 ## 0.2.0 — 2026-10-27
 
 Versão autorizada por Cristian para a nova identidade visual e apresentação do projeto como portfólio. O esquema de backup e as regras de dados permanecem compatíveis.

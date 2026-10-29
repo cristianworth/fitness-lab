@@ -1,6 +1,6 @@
 # Arquitetura e fluxo dos dados
 
-Este documento descreve a implementação da versão 0.1.2. Para motivação das escolhas, consulte [decisões técnicas](decisions.md); para regras de produto, consulte a [especificação inicial](spec.md).
+Este documento descreve a implementação da versão 0.3.0. Para motivação das escolhas, consulte [decisões técnicas](decisions.md); para regras de produto, consulte a [especificação inicial](spec.md).
 
 ## Visão geral
 
@@ -61,7 +61,19 @@ Datas do diário são strings civis `YYYY-MM-DD`. Instantes de sessão são ISO 
 
 Uma futura mudança de esquema precisa definir migração e compatibilidade com backups existentes, incluindo validação de falhas. Não basta mudar a interface TypeScript: o backup é validado em tempo de execução.
 
-## Limites operacionais
+## Demonstração isolada
+
+O modo pessoal preserva o banco `fitness-lab` e o canal `fitness-lab-updates`. A demonstração usa `fitness-lab-demo` e `fitness-lab-demo-updates`, com o mesmo esquema 1 e object store. As APIs do repositório recebem `DataMode`, com padrão `personal` para manter compatibilidade. Exportação, importação, comandos e avisos entre abas usam o modo explícito. Isso é separação lógica dos registros; não constitui uma fronteira de segurança entre scripts da mesma origem.
+
+A URL `?mode=demo` seleciona o modo durante a inicialização. Trocar de modo recarrega a aplicação, descartando componentes e operações de leitura antigos. O bloqueio de saída com séries não salvas também cobre os controles de modo/restauração. Não se usa preferência global em localStorage, portanto uma aba pessoal não é convertida em demo por outra aba.
+
+Na primeira leitura da demo, uma chave ausente permite buscar o JSON público usando `import.meta.env.BASE_URL`. O arquivo é validado antes da escrita. Uma transação de leitura/escrita relê a chave depois do fetch: se outra aba já gravou, aquele estado prevalece. Corrupção, quota ou indisponibilidade não acionam reset automático. Uma restauração explícita baixa e valida os exemplos antes de substituir apenas o banco demo atomicamente.
+
+O dia inicial da consulta demonstrativa é `2026-10-17`, identificado na interface; o dataset mantém suas datas originais. O relógio do sistema não muda: novas sessões recebem instantes reais, e o modo pessoal continua com a data atual no fuso configurado. A seleção inicial de evolução prioriza o supino fictício quando presente, com fallback para exercícios disponíveis após importação.
+
+O build de Pages usa `/fitness-lab/`; fontes, favicon, marca e JSON respeitam esse prefixo. As páginas internas são estado React, sem rotas de servidor, e a seleção de modo fica na query string. Veja [publicação](deployment.md) e [roteiro da demo](public-demo.md).
+
+## Hospedagem e armazenamento
 
 Os dados pertencem à origem e ao perfil do navegador. Limpeza manual, navegação privada e políticas de armazenamento podem removê-los. A solicitação de armazenamento persistente não substitui backup. Não há criptografia adicional implementada pelo app, conta, telemetria de produto ou envio de registros a um servidor.
 
