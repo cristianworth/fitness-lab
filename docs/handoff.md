@@ -1,5 +1,7 @@
 # Retomada — Fitness Lab
 
+Registro histórico das entregas abaixo. As autorizações de versão, commits, push e publicação referem-se aos respectivos recortes; novas operações seguem o pedido atual e o [processo de contribuição](../CONTRIBUTING.md#verificar-e-abrir-um-pull-request).
+
 ## Pedido e decisões
 
 App pessoal de academia implementado majoritariamente por IA, em execução autônoma. Escolhas confirmadas: um dispositivo sem login, IndexedDB com backup, nutrição manual por 100 g/ml, prioridade registrar séries durante o treino. Interface pt-BR e fuso America/Sao_Paulo.
@@ -23,10 +25,10 @@ Entrega 0.1.1: dataset demonstrativo pesquisado em `public/demo/fitness-lab-demo
 
 ## Próximo passo
 
-Entrega 0.3.0: entrada isolada `?mode=demo`, banco `fitness-lab-demo`, data de consulta 17/10/2026, relógio real nas sessões, sugestões e reset confirmado. APIs do repositório recebem modo explícito; default continua pessoal. Workflow publica main após CI e teste do build `/fitness-lab/`. O roteiro e resumo de portfólio estão em `public-demo.md`; estado da publicação e evidências em `validation.md`. O pedido atual autoriza commits/push e versão0.3.0 inteira, sem novo incremento por commit. Nenhum outro repositório deve ser editado nem outro chat contatado.
+Entrega 0.3.0: entrada isolada `?mode=demo`, banco `fitness-lab-demo`, data de consulta 17/10/2026, relógio real nas sessões, sugestões e reset confirmado. APIs do repositório recebem modo explícito; default continua pessoal. Workflow publica main após CI e teste do build `/fitness-lab/`. O roteiro e resumo de portfólio estão em `public-demo.md`; estado da publicação e evidências em `validation.md`. Naquela entrega, commits/push e versão 0.3.0 inteira foram autorizados, sem incremento por commit e sem edição de outros repositórios ou contato com outros chats. Essa autorização histórica não se estende a tarefas futuras.
 
 Em 27/10/2026, a entrega 0.2.0 refez a identidade visual por pedido de Cristian: cobalto/laranja/lavanda, fontes Barlow locais, monograma FL próprio em SVG e ficha de treino no painel. README e `visual-design.md` incluem fontes, decisões e capturas sintéticas. 38 testes unitários e 18 testes de navegador passaram, além de build/formatação. Revisão independente reconferiu proteção dos rascunhos ao clicar no novo logo móvel e contraste do foco ativo. Esquema de dados inalterado. Versão, commit e push explicitamente autorizados. A prévia desta entrega usa temporariamente 5183 para não conflitar com outro projeto em 5173 nem com os testes de reinicialização em 5181/5182; são origens de dados distintas.
 
 Em 22/10/2026, a entrega 0.1.2 documentou objetivo, construção com IA, arquitetura, contribuição e segurança. Cristian autorizou a licença MIT (`LICENSE`, autoria `cristianworth`) e o incremento para 0.1.2. Créditos externos estão em `NOTICE.md`; código de comportamento e esquema de dados permanecem iguais aos da 0.1.1.
 
-Experimentar o roteiro do README com registros fictícios e avaliar a experiência durante um treino. Evoluções como PWA/offline, hospedagem HTTPS, cancelamento de sessão, exclusão de cadastros ou edição de histórico são propostas futuras, não decisões já autorizadas de produto. Antes de nova versão/commit, ler CHANGELOG.md e confirmar próximo incremento conforme as regras do usuário; não incrementar a cada commit da mesma entrega.
+Experimentar o roteiro com registros fictícios e acompanhar o [retorno de uso — #2](https://github.com/cristianworth/fitness-lab/issues/2), distinguindo a demo de eventual experiência durante um treino. A hospedagem HTTPS foi entregue em 0.3.0. Evoluções como PWA/offline, cancelamento de sessão, exclusão de cadastros ou edição de histórico são propostas futuras, não decisões já autorizadas de produto. Antes de nova versão/commit, ler CHANGELOG.md e confirmar próximo incremento conforme as regras do usuário; não incrementar a cada commit da mesma entrega.

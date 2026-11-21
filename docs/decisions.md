@@ -6,7 +6,7 @@
 - Datas de diário são YYYY-MM-DD; instantes são ISO UTC; sessão recebe dia de início no fuso configurado.
 - Versão da aplicação vem do package.json; versão do esquema de backup é independente.
 - SDD em Markdown por proporcionalidade. Spec Kit acrescentaria configuração sem benefício necessário para esta primeira entrega pequena.
-- GitHub público autorizado para código. Hospedagem da aplicação exige decisão posterior.
+- GitHub público autorizado para código. A hospedagem estática por HTTPS no GitHub Pages foi autorizada na entrega 0.3.0 e conferida em 29/10/2026; [publicação e evidências](deployment.md). Novas operações seguem o escopo autorizado e o [processo de contribuição](../CONTRIBUTING.md#verificar-e-abrir-um-pull-request).
 
 ## Fontes oficiais consultadas
 

@@ -12,7 +12,7 @@ Para relatar um defeito, informe versão/commit, navegador/sistema, passos míni
 
 Faça um fork, clone seu fork e instale as dependências com `npm ci`. Use Node 24 para reproduzir a versão principal usada no CI. Execute `npm run dev` e abra `http://127.0.0.1:5173`. O [README](README.md) detalha a porta fixa, o navegador usado nos testes e os dados de demonstração.
 
-Você pode trabalhar em uma branch no seu fork e abrir um pull request para `main`. Mudanças de documentação não exigem executar o app; mudanças no comportamento devem incluir uma conferência prática do fluxo afetado.
+Use uma branch curta de trabalho a partir de `main` remota atualizada, no fork ou no repositório conforme a autorização do pedido, e abra um pull request para `main`. Preserve alterações e commits locais de outros trabalhos. Reaproveite ou abra uma issue quando o trabalho precisar de acompanhamento, sem recadastrar entregas concluídas. Mudanças de documentação não exigem executar o app; mudanças no comportamento devem incluir uma conferência prática do fluxo afetado.
 
 ## Convenções de implementação
 
@@ -36,7 +36,9 @@ Use `npm run format` para aplicar o padrão do projeto. Para documentação, for
 
 No pull request, informe o problema, o comportamento após a mudança, como testar e as verificações executadas. Inclua capturas quando ajudarem a avaliar a UI, usando dados fictícios. Se uma verificação não pôde ser feita, diga qual e por quê. Contribuições auxiliadas por IA são aceitas: descreva seu uso e revise o resultado; geração de código não é evidência de funcionamento.
 
-O CI executa formatação, testes, tipos, build e navegador. A aprovação final cabe ao mantenedor. Discuta o código com respeito, use exemplos reproduzíveis e evite ataques pessoais ou divulgação de informações privadas.
+Mantenha o PR em rascunho enquanto houver revisão ou validação pendente e relacione a issue, quando houver. Revise o diff e os checks do SHA atual; execução pendente ou de outro SHA não valida a revisão. Integre somente após aprovação de Cristian para o diff e autorização de integração; mudanças posteriores exigem nova revisão e aprovação. CI verde não autoriza merge, e push direto à `main` exige autorização explícita. Este processo não concede permissões operacionais além do pedido atual.
+
+O CI executa formatação, testes, tipos, build e navegador. PRs verificam sem publicar; eventual merge autorizado em `main` segue os filtros e o deploy existentes descritos no [guia de publicação](docs/deployment.md#fluxo-de-validação-e-publicação). Confira CI/deploy do commit integrado e comportamento publicado quando aplicável antes de anunciar publicação. Discuta o código com respeito, use exemplos reproduzíveis e evite ataques pessoais ou divulgação de informações privadas.
 
 ## Versões e licença
 
